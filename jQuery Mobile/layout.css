@@ -1,0 +1,22 @@
+.entry {
+  float: left;
+  width: 100%;
+}
+
+.landscape .entry .nav {
+  float: left;
+  width: 20.83%;   /* 200px / 960px = 0,2083333333333333 */
+  min-width: 200px;
+}
+ 
+.landscape .entry .content {
+  padding-top: 1.938em;
+  float: right;
+  width: 55%;   /* 760px / 960px = 0,7916666666666667 */
+}
+ 
+
+
+.portrait .entry .content {
+  visibility: hidden;
+}
