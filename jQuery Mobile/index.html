@@ -10,11 +10,12 @@
   <title>myHome</title>
   
   <link rel="stylesheet" href="jquery.mobile-1.0a2.css" />
-  <link rel="stylesheet" href="layout2.css" />
-  <link rel="stylesheet" href="print.css" />
+  <link rel="stylesheet" href="layout.css" />
   
   <script src="jquery-1.4.4.js"></script>
-  <script src="jquery.mobile-1.0a2.min.js"></script>
+  <script src="jquery.mobile-1.0a2.js"></script>
+  
+  <script type="text/javascript" src="js.js"></script> 
   
  </head>
 
@@ -57,18 +58,8 @@
 
   <div class="entry">
     
-    <div class="content">
-      <p>Test</p>
-    </div><!-- /content -->
-
-    
-  </div><!-- /entry -->
-
-  
-  <div class="nav">
-      <div data-role="content">
-        
-          <fieldset data-role="controlgroup" data-type="horizontal" data-role="fieldcontain">
+    <div data-role="content" class="content" id="content">
+        <fieldset data-role="controlgroup" data-type="horizontal" data-role="fieldcontain">
               <p>Licht 1</p>
                 <input type="radio" name="radio-choice-a" id="radio-choice-a" value="on" checked="checked" /> 
                 <label for="radio-choice-a">An</label> 
@@ -91,8 +82,19 @@
                 <input type="radio" name="radio-choice-c" id="radio-choice-f" value="off" /> 
                 <label for="radio-choice-f">Aus</label>
           </fieldset>
-        
-      </div>
+          
+    </div><!-- /content -->
+
+    
+  </div><!-- /entry -->
+
+  
+  <div class="nav">        
+          <div data-role="controlgroup" id="nav">
+            <a href="licht.html" data-role="button">Licht 1</a>
+            <a href="licht.html" data-role="button">Licht 2</a>
+            <a href="licht.html" data-role="button">Licht 3</a>
+          </div>
     </div> <!-- /nav-->
 
   
@@ -142,7 +144,7 @@
     <a href="index.html" data-icon="gear" class="ui-btn-right">Options</a>
   </div><!-- /header -->
 
-  <div class="entry">
+  <div class="entry" data-role="content">
     <div class="content">
       Test
     </div>
