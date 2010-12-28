@@ -1,5 +1,5 @@
 <?php
-$con = mysql_connect('internal-db.s114526.gridserver.com','db114526_jquery','jquerymobile');
+$con = mysql_connect('internal-db.s114526.gridserver.com','db114526_myhome','myhomefrontend');
 if (!$con)
 {
 	echo "Failed to make connection.";
