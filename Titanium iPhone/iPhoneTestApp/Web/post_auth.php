@@ -18,6 +18,10 @@ if (!$db)
 $username = $_POST['username'];
 $password = $_POST['password'];
 
+if(!isset($_POST['username'])){
+  die("No Username.");
+}
+
 // Select eveything from the users table where username field == the username we posted and password field == the password we posted
 $sql = "SELECT * FROM users WHERE username = '" . $username . "' AND password = '" . $password . "'";
 $query = mysql_query($sql);
