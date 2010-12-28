@@ -6,7 +6,7 @@ if (!$con)
 	exit;
 }
 
-$db = mysql_select_db('db114526_iphone');
+$db = mysql_select_db('db114526_myhome');
 if (!$db)
 {
 	echo "Failed to select db.";

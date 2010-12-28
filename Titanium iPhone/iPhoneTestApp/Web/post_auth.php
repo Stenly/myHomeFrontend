@@ -7,7 +7,7 @@ if (!$con)
 	exit;
 }
 // Select the database. Enter the name of your database (not the same as the table name)
-$db = mysql_select_db('db114526_iphone');
+$db = mysql_select_db('db114526_myhome');
 if (!$db)
 {
 	echo "Failed to select db.";
