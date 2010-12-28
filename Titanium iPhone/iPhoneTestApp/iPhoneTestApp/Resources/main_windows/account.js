@@ -149,7 +149,7 @@ createBtn.addEventListener('click',function(e)
 			{
 				createBtn.enabled = false;
 				createBtn.opacity = 0.3;
-				createReq.open("POST","http://jquery.matsbecker.com/iphone/post_register.php");
+				createReq.open("POST","http://myhome.matsbecker.com/iPhone/post_register.php");
 				var params = {
 					username: username.value,
 					password: Ti.Utils.md5HexDigest(password1.value),

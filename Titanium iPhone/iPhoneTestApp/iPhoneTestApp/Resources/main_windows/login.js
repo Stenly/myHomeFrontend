@@ -66,7 +66,7 @@ loginBtn.addEventListener('click',function(e)
 {
 	if (username.value != '' && password.value != '')
 	{
-		loginReq.open("POST","http://jquery.matsbecker.com/iphone/post_auth.php");
+		loginReq.open("POST","http://myhome.matsbecker.com/iPhone/post_auth.php");
 		var params = {
 			username: username.value,
 			password: Ti.Utils.md5HexDigest(password.value)
