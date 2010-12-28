@@ -1,4 +1,10 @@
 <?php
+// Check $_POST['user_id']
+
+if(!isset($_POST['user_id'])){
+  die("No User ID.");
+}
+
 // Connect to the database(host, username, password)
 $con = mysql_connect('internal-db.s114526.gridserver.com','db114526_myhome','myhomefrontend');
 if (!$con)
@@ -14,27 +20,25 @@ if (!$db)
   exit;
 }
 
-// $_POST['username'] and $_POST['password'] are the param names we sent in our click event in login.js
+// $_POST['user_id'] is the param names we sent in our click event in lights.js
 $user_id = $_POST['user_id'];
 
-if(!isset($_POST['user_id'])){
-  die("No Useer ID.");
-}
 
-// Select eveything from the users table where username field == the username we posted and password field == the password we posted
+
+// Select eveything from the lights table where user_id field == the user_id we posted
 $sql = "SELECT * FROM lights WHERE user_id = '" . $user_id . "'";
 $query = mysql_query($sql);
 
 // If we find a match, create an array of data, json_encode it and echo it out
 if (mysql_num_rows($query) > 0)
 {
-  $array = new array();  
+  $array = array();  
   while($row = mysql_fetch_object($query)){
     $response = array(
-    'id' => $row['id'],
-    'pos_x' => $row['pos_x'],
-    'pos_y' => $row['poy_y'],
-    'light' => $row['light']
+    'id' => $row->id,
+    'pos_x' => $row->pos_x,
+    'pos_y' => $row->pos_y,
+    'light' => $row->light
   );
   $array[] = $response; 
   } 
@@ -42,10 +46,10 @@ if (mysql_num_rows($query) > 0)
 }
 else
 {
-  // Else the username and/or password was invalid! Create an array, json_encode it and echo it out
+  // Else no lights were found
   $response = array(
-    'logged' => false,
-    'message' => 'Invalid Username and/or Password'
+    'user_id' => $user_id,
+    'message' => 'No Lights.'
   );
   echo json_encode($response);
 }
