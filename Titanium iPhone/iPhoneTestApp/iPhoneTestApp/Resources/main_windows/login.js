@@ -49,7 +49,11 @@ loginReq.onload = function()
 	{
 		username.blur();
 		password.blur();
+		Titanium.App.Properties.setInt("user_id", response.user_id);
+			Titanium.App.Properties.setString("name", response.name);
+			Titanium.App.Properties.setString("email", response.email);
 		Ti.App.fireEvent('grantEntrance', {
+			
 			name:response.name,
 			email:response.email
 		});

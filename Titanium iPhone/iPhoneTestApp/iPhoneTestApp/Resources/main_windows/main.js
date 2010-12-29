@@ -1,7 +1,8 @@
 var win = Titanium.UI.currentWindow;
 
-Ti.API.info("Name: " + win.name);
-Ti.API.info("Email: " + win.email);
+Ti.API.info("Name: " + Titanium.App.Properties.getString("name"));
+Ti.API.info("Email: " + Titanium.App.Properties.getString("email"));
+Ti.API.info("User ID: " + Titanium.App.Properties.getInt("user_id"));
 
 
 var scrollView = Titanium.UI.createScrollView({
@@ -18,7 +19,7 @@ var view = Titanium.UI.createView({
 });
 
 var msg	= Titanium.UI.createLabel({
-	text:"You have successfully logged in. Upon logging in we sent back your email address and your name. You can pass all kinds of data simply by creating objects on your window.\n\nYour email is:\n" + win.email + "\n\nyour name is:\n" + win.name,
+	text:"You have successfully logged in. Upon logging in we sent back your email address and your name. You can pass all kinds of data simply by creating objects on your window.\n\nYour email is:\n" + Titanium.App.Properties.getString("email") + "\n\nyour name is:\n" + Titanium.App.Properties.getString("name"),
 	color:"#fff",
 	top:10,
 	left:10,

@@ -38,9 +38,7 @@ Ti.App.addEventListener('grantEntrance', function(event)
 		tabBarHidden 	: false,
 	  	title 		: 'myHome',
 		url 		: 'main_windows/main.js',
-		orientationModes : [ Titanium.UI.PORTRAIT, Titanium.UI.UPSIDE_PORTRAIT, Titanium.UI.LANDSCAPE_RIGHT, Titanium.UI.LANDSCAPE_LEFT],
-		name 		: event.name,
-		email 		: event.email
+		orientationModes : [ Titanium.UI.PORTRAIT, Titanium.UI.UPSIDE_PORTRAIT, Titanium.UI.LANDSCAPE_RIGHT, Titanium.UI.LANDSCAPE_LEFT]
 	});
 	
 		
@@ -68,12 +66,15 @@ Ti.App.addEventListener('grantEntrance', function(event)
 	mainTabGroup.addTab(mainTab);
 	mainTabGroup.addTab(lichtTab);
 	
-	
 	userTabGroup.close();
 	mainTabGroup.open();
 });
 
 Ti.App.addEventListener('eventLogout', function(event)
 {
+	Titanium.App.Properties.removeProperty("user_id");
+	Titanium.App.Properties.removeProperty("name");
+	Titanium.App.Properties.removeProperty("email");
+	Titanium.API.info("Loesche Properties...");
 	userTabGroup.open();	
 });
