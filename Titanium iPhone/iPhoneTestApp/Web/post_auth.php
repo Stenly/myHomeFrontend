@@ -33,7 +33,8 @@ if (mysql_num_rows($query) > 0)
 	$response = array(
 		'logged' => true,
 		'name' => $row['name'],
-		'email' => $row['email']
+		'email' => $row['email'],
+		'user_id' => $row['id']
 	);
 	echo json_encode($response);
 }

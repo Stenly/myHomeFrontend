@@ -49,7 +49,8 @@ else
   // Else no lights were found
   $response = array(
     'user_id' => $user_id,
-    'message' => 'No Lights.'
+    'message' => 'No Lights.',
+    'status' => false
   );
   echo json_encode($response);
 }
