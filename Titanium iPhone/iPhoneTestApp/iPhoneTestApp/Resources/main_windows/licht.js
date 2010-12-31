@@ -140,45 +140,46 @@ function createSwitch(value){
 	 */
 	switchesarray[value.id].addEventListener('change',function(e)
 	{
-    /*
-		 * HTTP Request: Update Lights
-		 * Es wird ein HTTP Request erstellt, um die Licht Nodes upzudaten
-		 */
-		var lightsUpdate = Titanium.Network.createHTTPClient();
-		
-		
-		/*
-		 * Wird automatisch geladen, wenn Antwort vom Server empfangen wird
-		 */
-		lightsUpdate.onload = function()
-		{
-				var json = this.responseText;
-				var response = JSON.parse(json);
-				if (response.status == true)
-				{
-					Titanium.API.info("Update Light: " + response.id);
-					
-					// Funktion für Änderung der Farbei bei den Licht Nodes, sowie der Änderung beim Label Text
-					updateSwitchAndCircle(response.id, response.light);
-				}
-				else
-				{
-					Titanium.API.info(response.user_id);
-					Titanium.API.info(response.message);
-				}
-			};
-			
-			/*
-       * switchesarray[value.id].value = true oder false
-       */
-			lightsUpdate.open("POST","http://myhome.matsbecker.com/iPhone/update_lights.php");
-			var params = {
-				user_id: Titanium.App.Properties.getInt("user_id"),
-				id: value.id,
-				light: switchesarray[value.id].value;
-			};
-			lightsUpdate.send(params);
-			Titanium.API.info("Send: " + params.id);
+      /*
+  		 * HTTP Request: Update Lights
+  		 * Es wird ein HTTP Request erstellt, um die Licht Nodes upzudaten
+  		 */
+  		var lightsUpdate = Titanium.Network.createHTTPClient();
+  		
+  		
+  		/*
+  		 * Wird automatisch geladen, wenn Antwort vom Server empfangen wird
+  		 */
+  		lightsUpdate.onload = function()
+  		{
+  				var json = this.responseText;
+  				var response = JSON.parse(json);
+  				if (response.status == true)
+  				{
+  					Titanium.API.info("Update Light: " + response.id);
+  					
+  					// Funktion für Änderung der Farbei bei den Licht Nodes, sowie der Änderung beim Label Text
+  					updateSwitchAndCircle(response.id, response.light);
+  				}
+  				else
+  				{
+  					Titanium.API.info(response.user_id);
+  					Titanium.API.info(response.message);
+  				}
+  		};
+  			
+  			/*
+         * switchesarray[value.id].value = true oder false
+         */
+  			lightsUpdate.open("POST","http://myhome.matsbecker.com/iPhone/update_lights.php");
+  			var params = {
+  				user_id: Titanium.App.Properties.getInt("user_id"),
+  				id: value.id,
+  				light: switchesarray[value.id].value
+  			};
+  			lightsUpdate.send(params);
+  			Titanium.API.info("Send: " + params.id);
+  			
 	});
 	
 	view.add(labelsarray[value.id]);
