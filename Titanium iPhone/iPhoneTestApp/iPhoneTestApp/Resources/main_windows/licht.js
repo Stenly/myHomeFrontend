@@ -90,18 +90,22 @@ function createSwitch(value){
 	
 	topx = topx + 30;
 	
-	// String Wert muss für Addition in Integer Wert umgewandelt werden
+	/*
+	 * String Wert muss für Addition in Integer Wert umgewandelt werden
+	 */
 	var posx1 = parseInt(value.pos_x);
 	
-	// Wert für den linken "Frame", der enstprechend auf die Nodes addiert werden muss, damit sie auf dem Grundriss richtig angezeigt werden
 	/*
+	 * Wert für den linken "Frame", der enstprechend auf die Nodes addiert werden muss, damit sie auf dem Grundriss richtig angezeigt werden
 	 * Sollte später als globale Konstante definiert werden, da sich die Breite je nach Gerät unterscheidet
 	 */
 	var posx2 = 150;
 	
 	var posx = posx1 + posx2;
 	
-	// String Wert muss für Berechnung in Integer Wert umgewandelt werden
+	/*
+	 * String Wert muss für Berechnung in Integer Wert umgewandelt werden
+	 */
 	var posy = parseInt(value.pos_y);
 	
 
@@ -136,10 +140,7 @@ function createSwitch(value){
 	 */
 	switchesarray[value.id].addEventListener('change',function(e)
 	{
-    // Entweder true oder false
-		var lightsonoff = switchesarray[value.id].value;
-		
-		/*
+    /*
 		 * HTTP Request: Update Lights
 		 * Es wird ein HTTP Request erstellt, um die Licht Nodes upzudaten
 		 */
@@ -147,7 +148,7 @@ function createSwitch(value){
 		
 		
 		/*
-		 * Wird automatisch gealden, wenn Antwort empfangen wird
+		 * Wird automatisch geladen, wenn Antwort vom Server empfangen wird
 		 */
 		lightsUpdate.onload = function()
 		{
@@ -167,11 +168,13 @@ function createSwitch(value){
 				}
 			};
 			
+			/*
+       * switchesarray[value.id].value = true oder false
+       */
 			lightsUpdate.open("POST","http://myhome.matsbecker.com/iPhone/update_lights.php");
 			var params = {
 				user_id: Titanium.App.Properties.getInt("user_id"),
 				id: value.id,
-				// switchesarray[value.id].value = true oder false
 				light: switchesarray[value.id].value;
 			};
 			lightsUpdate.send(params);
@@ -184,7 +187,7 @@ function createSwitch(value){
 	scrollView.add(circlesarray[value.id]);
 	scrollView.add(circlesLabelsarray[value.id]);
 }
-// end functione createSwitch
+
 function updateSwitchAndCircle(id2, light2){
 	var status2;
 	var farbe2;
