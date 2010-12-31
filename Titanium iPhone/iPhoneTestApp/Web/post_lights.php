@@ -1,4 +1,8 @@
 <?php
+/*
+ * http://myhome.matsbecker.com/iPhone/post_lights.php
+ */
+ 
 // Check $_POST['user_id']
 
 if(!isset($_POST['user_id'])){

@@ -1,4 +1,8 @@
 <?php
+/*
+ * http://myhome.matsbecker.com/iPhone/post_auth.php
+ */
+
 // Connect to the database(host, username, password)
 $con = mysql_connect('internal-db.s114526.gridserver.com','db114526_myhome','myhomefrontend');
 if (!$con)

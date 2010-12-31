@@ -1,4 +1,8 @@
 <?php
+/*
+ * http://myhome.matsbecker.com/iPhone/update_lights.php
+ */
+ 
 // Check $_POST['user_id']
 
 if(!isset($_POST['user_id'])){
@@ -38,8 +42,8 @@ if (mysql_num_rows($query) > 0)
   
   $query2 = mysql_query($updatesql);
   if($query2){
-    $sql2 = "SELECT * FROM lights WHERE user_id = '" . $user_id . "' AND id = '". $id ."'";
-    $query3 = mysql_query($sql2);
+    $sql3 = "SELECT * FROM lights WHERE user_id = '" . $user_id . "' AND id = '". $id ."'";
+    $query3 = mysql_query($sql3);
     if (mysql_num_rows($query3) > 0){
       $row = mysql_fetch_array($query3);
       $response = array(
