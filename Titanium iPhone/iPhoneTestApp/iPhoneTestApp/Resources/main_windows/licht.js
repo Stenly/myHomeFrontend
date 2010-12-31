@@ -93,7 +93,7 @@ function createSwitch(value){
 	/*
 	 * String Wert muss für Addition in Integer Wert umgewandelt werden
 	 */
-	var posx1 = parseInt(value.pos_x);
+	var posx1 = parseInt(value.pos_x, 10);
 	
 	/*
 	 * Wert für den linken "Frame", der enstprechend auf die Nodes addiert werden muss, damit sie auf dem Grundriss richtig angezeigt werden
@@ -106,7 +106,7 @@ function createSwitch(value){
 	/*
 	 * String Wert muss für Berechnung in Integer Wert umgewandelt werden
 	 */
-	var posy = parseInt(value.pos_y);
+	var posy = parseInt(value.pos_y, 10);
 	
 
 	/*
@@ -188,22 +188,22 @@ function createSwitch(value){
 	scrollView.add(circlesarray[value.id]);
 	scrollView.add(circlesLabelsarray[value.id]);
 }
-
+/*
+ * Funktion to change color of Light Nodes and the text of the Switch labels
+ */
 function updateSwitchAndCircle(id2, light2){
-	var status2;
-	var farbe2;
-	if (light2 == true){
-			status2 = "An";
-			farbe2 = "#009900";
-		} else {
-			status2 = "Aus";
-			farbe2 = "#660000";
-		}
-		labelsarray[id].text = 'Licht ' + id2 + ': ' + status2;
-		circlesarray[id].backgroundColor = farbe2;
+  var status2;
+  var farbe2;
+  if (light2 == true){
+      status2 = "An";
+      farbe2 = "#009900";
+    } else {
+      status2 = "Aus";
+      farbe2 = "#660000";
+    }
+    labelsarray[id].text = 'Licht ' + id2 + ': ' + status2;
+    circlesarray[id].backgroundColor = farbe2;
 }
-
-
 /*
  * Funktion um Orientation zu bestimmen.
  * Muss global definiert werden
