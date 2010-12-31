@@ -259,11 +259,9 @@ lightsGet.onload = function()
 	var response = JSON.parse(json);
 	if (response.status != false)
 	{
-		Titanium.API.info(response);
+		
 		for( var i = 0; i<response.length; i++){
-			var value = response[i];
-			createSwitch(value);
-			//Titanium.API.info("Licht ID" + value.id);
+			createSwitch(response[i]);
 		}
 	}
 	else
@@ -294,7 +292,7 @@ win.addEventListener('open', function(e){
 			user_id: Titanium.App.Properties.getInt("user_id")
 		};
 		lightsGet.send(params);
-		Titanium.API.info(params);
+		Titanium.API.info("User ID: " + Titanium.App.Properties.getInt("user_id"));
 	}
 	else
 	{
