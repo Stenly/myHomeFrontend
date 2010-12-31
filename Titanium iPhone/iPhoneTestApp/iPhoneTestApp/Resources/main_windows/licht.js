@@ -201,8 +201,8 @@ function updateSwitchAndCircle(id2, light2){
       status2 = "Aus";
       farbe2 = "#660000";
     }
-    labelsarray[id].text = 'Licht ' + id2 + ': ' + status2;
-    circlesarray[id].backgroundColor = farbe2;
+    labelsarray[id2].text = 'Licht ' + id2 + ': ' + status2;
+    circlesarray[id2].backgroundColor = farbe2;
 }
 /*
  * Funktion um Orientation zu bestimmen.
