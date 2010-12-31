@@ -52,7 +52,7 @@ logoutBtn.addEventListener('click',function(e)
 });
 
 /*
- * Function to create Light-Switch
+ * Function to create Light-Switch and Light Nodes
  */
 var topx = 10;
 
@@ -61,13 +61,16 @@ function createSwitch(value){
 	
 	var lightboolean;
 	var lighttext;
+	var farbelight;
 	
 	if(value.light == 1){
 		lightboolean = true;
-		lighttext = "An";	
+		lighttext = "An";
+		farbelight = "#009900";	
 	} else {
 		lightboolean = false;
 		lighttext = "Aus";
+		farbelight = "#660000";
 	}
 	
 		
@@ -87,20 +90,24 @@ function createSwitch(value){
 	
 	topx = topx + 30;
 	
-		var posx2 = 150;
+	// String Wert muss für Addition in Integer Wert umgewandelt werden
 	var posx1 = parseInt(value.pos_x);
+	
+	// Wert für den linken "Frame", der enstprechend auf die Nodes addiert werden muss, damit sie auf dem Grundriss richtig angezeigt werden
+	/*
+	 * Sollte später als globale Konstante definiert werden, da sich die Breite je nach Gerät unterscheidet
+	 */
+	var posx2 = 150;
+	
 	var posx = posx1 + posx2;
 	
+	// String Wert muss für Berechnung in Integer Wert umgewandelt werden
 	var posy = parseInt(value.pos_y);
 	
-	Titanium.API.info("Pos X: " + posx);
-	
-	var farbelight;
-	if(value.light == 1){
-		farbelight = "#009900";
-	} else {
-		farbelight = "#660000";
-	}
+
+	/*
+	 * Licht Nodes werden als Kreise definiert und in einem Array gespeichert, um später darauf zugreifen zu können
+	 */
 	circlesarray[value.id] = Titanium.UI.createView({
 		width: 10,
 		height: 10,
@@ -112,6 +119,9 @@ function createSwitch(value){
 		visible: false
 	});
 	
+	/*
+	 * Beschriftung der Licht Nodes.
+	 */
 	circlesLabelsarray[value.id] = Titanium.UI.createLabel({
 		text:'Licht ' + value.id,
 		height:'auto',
@@ -121,22 +131,24 @@ function createSwitch(value){
 		zIndex: 12
 	});
 	
+	/*
+	 * EventListener werden den einzelnen Switches hinzugefügt, damit das Umschalten der Switches registriert wird
+	 */
 	switchesarray[value.id].addEventListener('change',function(e)
 	{
-				var lightsonoff;	
-		
-		if (switchesarray[value.id].value == true){
-			lightsonoff = true;	
-		} else {
-			lightsonoff = false;
-		}
-		// e.value
+    // Entweder true oder false
+		var lightsonoff = 	switchesarray[value.id].value;
 		
 		/*
 		 * HTTP Request: Update Lights
+		 * Es wird ein HTTP Request erstellt, um die Licht Nodes upzudaten
 		 */
 		var lightsUpdate = Titanium.Network.createHTTPClient();
 		
+		
+		/*
+		 * Wird automatisch gealden, wenn Antwort empfangen wird
+		 */
 		lightsUpdate.onload = function()
 		{
 				var json = this.responseText;
@@ -144,6 +156,8 @@ function createSwitch(value){
 				if (response.status == true)
 				{
 					Titanium.API.info("Update Light: " + response.id);
+					
+					// Funktion für Änderung der Farbei bei den Licht Nodes, sowie der Änderung beim Label Text
 					updateSwitchAndCircle(response.id, response.light);
 				}
 				else
@@ -157,7 +171,8 @@ function createSwitch(value){
 			var params = {
 				user_id: Titanium.App.Properties.getInt("user_id"),
 				id: value.id,
-				light: lightsonoff
+				// switchesarray[value.id].value = true oder false
+				light: switchesarray[value.id].value;
 			};
 			lightsUpdate.send(params);
 			Titanium.API.info("Send: " + params.id);
@@ -170,20 +185,25 @@ function createSwitch(value){
 	scrollView.add(circlesLabelsarray[value.id]);
 }
 // end functione createSwitch
-function updateSwitchAndCircle(id, light){
-	var status;
-	var farbe;
-	if (light == true){
-			status = "An";
-			farbe = "#009900";
+function updateSwitchAndCircle(id2, light2){
+	var status2;
+	var farbe2;
+	if (light2 == true){
+			status2 = "An";
+			farbe2 = "#009900";
 		} else {
-			status = "Aus";
-			farbe = "#660000";
+			status2 = "Aus";
+			farbe2 = "#660000";
 		}
-		labelsarray[id].text = 'Licht ' + id + ': ' + status;
-		circlesarray[id].backgroundColor = farbe;
+		labelsarray[id].text = 'Licht ' + id2 + ': ' + status2;
+		circlesarray[id].backgroundColor = farbe2;
 }
 
+
+/*
+ * Funktion um Orientation zu bestimmen.
+ * Muss global definiert werden
+ */
 function getOrientation(o){
 	switch(o) {
 		case Titanium.UI.PORTRAIT: return 'potrait';
@@ -256,7 +276,10 @@ lightsGet.onload = function()
 	}
 };
 
-
+/*
+ * Funktion wird aufgerufen, wenn das Fenster geöffnet wird (bzw. erstellt wird).
+ * Soll ein Refresh eingebaut werden?
+ */
 win.addEventListener('open', function(e){
 	Titanium.API.info("Hole Lichter von der Datenbank...");
 	
