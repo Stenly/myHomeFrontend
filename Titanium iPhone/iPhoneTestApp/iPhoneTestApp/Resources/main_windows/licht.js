@@ -137,7 +137,7 @@ function createSwitch(value){
 	switchesarray[value.id].addEventListener('change',function(e)
 	{
     // Entweder true oder false
-		var lightsonoff = 	switchesarray[value.id].value;
+		var lightsonoff = switchesarray[value.id].value;
 		
 		/*
 		 * HTTP Request: Update Lights
