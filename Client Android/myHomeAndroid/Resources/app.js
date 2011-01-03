@@ -13,6 +13,20 @@ var loginTab = Titanium.UI.createTab({
 	title:"Login",
 	icon:'icons/user.png',
 	window:login
+});
+
+// Test
+var test = Titanium.UI.createWindow({
+	title:'myHome Test',
+	backgroundImage:"backgrounds/flying_colors_640x960.png",
+	url:'main_windows/test.js',
+	orientationModes : [ Titanium.UI.LANDSCAPE_RIGHT, Titanium.UI.LANDSCAPE_LEFT]
+});
+
+var testTab = Titanium.UI.createTab({
+	title:"Test",
+	icon:'icons/user.png',
+	window:test
 });	
 
 var account = Titanium.UI.createWindow({
