@@ -83,11 +83,13 @@ loginBtn.addEventListener('click',function(e)
 	}
 });
 
+/*
+ * Für Android muss eine andere Lösung gefunden werden, deshalb wird das hie rauskommentiert
+ */
+/*
 win.addEventListener('focus', function(e){
 	Titanium.API.info("Loesche Login-Werte...");
 	username.value="";
 	password.value="";
 });
-
-
-
+*/
