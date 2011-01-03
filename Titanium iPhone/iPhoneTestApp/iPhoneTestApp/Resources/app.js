@@ -1,6 +1,6 @@
 var userTabGroup	= Titanium.UI.createTabGroup();
 
-
+/** Test **/
 
 var login = Titanium.UI.createWindow({
 	title:'myHome Login',
