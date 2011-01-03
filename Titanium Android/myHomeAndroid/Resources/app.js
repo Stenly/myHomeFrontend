@@ -1,64 +1,80 @@
-// this sets the background color of the master UIView (when there are no windows/tab groups on it)
-Titanium.UI.setBackgroundColor('#000');
+var userTabGroup	= Titanium.UI.createTabGroup();
 
-// create tab group
-var tabGroup = Titanium.UI.createTabGroup();
+/** Test **/
 
-
-//
-// create base UI tab and root window
-//
-var win1 = Titanium.UI.createWindow({  
-    title:'Tab 1',
-    backgroundColor:'#fff'
-});
-var tab1 = Titanium.UI.createTab({  
-    icon:'KS_nav_views.png',
-    title:'Tab 1',
-    window:win1
+var login = Titanium.UI.createWindow({
+	title:'myHome Login',
+	backgroundImage:"backgrounds/flying_colors_640x960.png",
+	url:'main_windows/login.js',
+	orientationModes : [ Titanium.UI.PORTRAIT, Titanium.UI.UPSIDE_PORTRAIT, Titanium.UI.LANDSCAPE_RIGHT, Titanium.UI.LANDSCAPE_LEFT]
 });
 
-var label1 = Titanium.UI.createLabel({
-	color:'#999',
-	text:'I am Window 1',
-	font:{fontSize:20,fontFamily:'Helvetica Neue'},
-	textAlign:'center',
-	width:'auto'
+var loginTab = Titanium.UI.createTab({
+	title:"Login",
+	icon:'icons/user.png',
+	window:login
+});	
+
+var account = Titanium.UI.createWindow({
+	title:'New Account',
+	backgroundImage:"backgrounds/darkfade.jpg",
+	url:'main_windows/account.js',
+	orientationModes : [ Titanium.UI.PORTRAIT, Titanium.UI.LANDSCAPE_LEFT]
 });
 
-win1.add(label1);
-
-//
-// create controls tab and root window
-//
-var win2 = Titanium.UI.createWindow({  
-    title:'Tab 2',
-    backgroundColor:'#fff'
-});
-var tab2 = Titanium.UI.createTab({  
-    icon:'KS_nav_ui.png',
-    title:'Tab 2',
-    window:win2
+var accountTab = Titanium.UI.createTab({
+	title:'New Account',
+	icon:'icons/register.png',
+	window:account
 });
 
-var label2 = Titanium.UI.createLabel({
-	color:'#999',
-	text:'I am Window 2',
-	font:{fontSize:20,fontFamily:'Helvetica Neue'},
-	textAlign:'center',
-	width:'auto'
+userTabGroup.addTab(loginTab);
+userTabGroup.addTab(accountTab);
+userTabGroup.open();
+
+Ti.App.addEventListener('grantEntrance', function(event)
+{
+	var main	= Titanium.UI.createWindow({
+		tabBarHidden 	: false,
+	  	title 		: 'myHome',
+		url 		: 'main_windows/main.js',
+		orientationModes : [ Titanium.UI.PORTRAIT, Titanium.UI.UPSIDE_PORTRAIT, Titanium.UI.LANDSCAPE_RIGHT, Titanium.UI.LANDSCAPE_LEFT]
+	});
+	
+		
+	
+	var mainTab	= Titanium.UI.createTab({
+		window: main,
+		icon:'icons/home.png',
+		title: "Home"
+	});
+	
+	var lichtWindow	= Titanium.UI.createWindow({
+		tabBarHidden 	: false,
+	  	title 		: 'Licht',
+		orientationModes : [ Titanium.UI.PORTRAIT, Titanium.UI.UPSIDE_PORTRAIT, Titanium.UI.LANDSCAPE_RIGHT, Titanium.UI.LANDSCAPE_LEFT],
+		url 		: 'main_windows/licht.js'
+	});
+	
+	var lichtTab	= Titanium.UI.createTab({
+		window: lichtWindow,
+		icon:'icons/lightbulb.png',
+		title:"Licht"
+	});
+	
+	var mainTabGroup = Titanium.UI.createTabGroup();
+	mainTabGroup.addTab(mainTab);
+	mainTabGroup.addTab(lichtTab);
+	
+	userTabGroup.close();
+	mainTabGroup.open();
 });
 
-win2.add(label2);
-
-
-
-//
-//  add tabs
-//
-tabGroup.addTab(tab1);  
-tabGroup.addTab(tab2);  
-
-
-// open tab group
-tabGroup.open();
+Ti.App.addEventListener('eventLogout', function(event)
+{
+	Titanium.App.Properties.removeProperty("user_id");
+	Titanium.App.Properties.removeProperty("name");
+	Titanium.App.Properties.removeProperty("email");
+	Titanium.API.info("Loesche Properties...");
+	userTabGroup.open();	
+});
