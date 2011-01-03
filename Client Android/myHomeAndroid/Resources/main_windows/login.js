@@ -84,7 +84,7 @@ loginBtn.addEventListener('click',function(e)
 });
 
 /*
- * Für Android muss eine andere Lösung gefunden werden, deshalb wird das hie rauskommentiert
+ * Für Android muss eine andere Lösung gefunden werden, deshalb wird das hier auskommentiert
  */
 /*
 win.addEventListener('focus', function(e){
