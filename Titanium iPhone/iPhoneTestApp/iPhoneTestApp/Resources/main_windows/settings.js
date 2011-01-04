@@ -36,7 +36,6 @@ var tableView = Ti.UI.createTableView({
 currentWin.add(tableView);
 var loginBtn = Titanium.UI.createButton({
 	title:'Save',
-	top:110,
 	width:90,
 	height:35,
 	borderRadius:1,
@@ -51,8 +50,8 @@ loginBtn.addEventListener('click',function(e)
 		Titanium.API.info('New URL: ' + tf1.value);		
 		Titanium.App.Properties.setString('url', tf1.value);
 		
-		var db = Titanium.Database.install("../db/myHome.sqlite", 'setting');
-		var exec = db.execute("UPDATE settings SET URL = " + tf1.value);
+		var db = Titanium.Database.install("../db/myHome.sqlite", 'myHome');
+		db.execute("UPDATE settings SET url = ?", tf1.value);
 		db.close();
 	}
 	else

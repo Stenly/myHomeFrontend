@@ -1,6 +1,6 @@
 var userTabGroup	= Titanium.UI.createTabGroup();
 
-var db = Titanium.Database.install("db/myHome.sqlite", 'setting');
+var db = Titanium.Database.install("db/myHome.sqlite", 'myHome');
 var url = db.execute('SELECT url FROM settings');
 Titanium.App.Properties.setString('url', url.fieldByName('url'));
 db.close();
