@@ -40,6 +40,8 @@ win.add(loginBtn);
 
 
 var loginReq = Titanium.Network.createHTTPClient();
+var start;
+loginReq.setTimeout(3000);
 
 loginReq.onload = function()
 {
@@ -65,12 +67,21 @@ loginReq.onload = function()
 	}
 };
 
+loginReq.onerror = function(e)
+		{
+			var now = new Date();
+			var time = (((now - start) / 1000) | 0);
+			alert('Login error: time passed = ' + (now-start) + ' seconds');
+			Ti.API.info('error ' + e.error);
+		};
 
 loginBtn.addEventListener('click',function(e)
 {
+	start = new Date();
 	if (username.value != '' && password.value != '')
 	{
-		loginReq.open("POST","http://myhome.matsbecker.com/iPhone/post_auth.php");
+		
+		loginReq.open("POST", Titanium.App.Properties.getString('url') + "post_auth.php");
 		var params = {
 			username: username.value,
 			password: Ti.Utils.md5HexDigest(password.value)
