@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ti:app xmlns:ti="http://ti.appcelerator.org">
-<id>com.dhbw.myHome</id>
-<name>myHomeAndroid</name>
+<id>com.dhbw.stefan_myhome</id>
+<name>myHome</name>
 <version>1.0</version>
-<publisher>Stefan</publisher>
+<publisher>Wenzel</publisher>
 <url>www.dhbw-mannheim.de</url>
-<description>Super App</description>
-<copyright>not specified</copyright>
+<description>No description provided</description>
+<copyright>2011 by Wenzel</copyright>
 <icon>default_app_logo.png</icon>
     <persistent-wifi>false</persistent-wifi>
     <prerendered-icon>false</prerendered-icon>
@@ -15,7 +15,7 @@
     <fullscreen>false</fullscreen>
     <navbar-hidden>false</navbar-hidden>
     <analytics>true</analytics>
-<guid>306a07b1-4ad7-4c74-ab8d-7a8a45e6a533</guid>
+<guid>38f8452a-fd50-461f-a932-3d2f7f139932</guid>
 	<iphone>
 		<orientations device="iphone">
 			<orientation>Ti.UI.PORTRAIT</orientation>

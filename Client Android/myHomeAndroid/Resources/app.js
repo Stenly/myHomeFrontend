@@ -1,94 +1,85 @@
-var userTabGroup	= Titanium.UI.createTabGroup();
+// Hauptmenue - Alpha
 
-/** Test **/
-
-var login = Titanium.UI.createWindow({
-	title:'myHome Login',
-	backgroundImage:"backgrounds/flying_colors_640x960.png",
-	url:'main_windows/login.js',
-	orientationModes : [ Titanium.UI.PORTRAIT, Titanium.UI.UPSIDE_PORTRAIT, Titanium.UI.LANDSCAPE_RIGHT, Titanium.UI.LANDSCAPE_LEFT]
+var main_menu = Titanium.UI.createWindow ({
+	title: "Hauptmenü",
+	backgroundColor:"black",
+	exitOnClose: true,
+	orientationModes: [Titanium.UI.PORTRAIT, Titanium.UI.UPSIDE_PORTRAIT]
 });
 
-var loginTab = Titanium.UI.createTab({
-	title:"Login",
-	icon:'icons/user.png',
-	window:login
+// Android Menü
+var activity = Titanium.Android.currentActivity;
+activity.onCreateOptionsMenu = function(e) {
+    var menu = e.menu;
+    var menuItem = menu.add({ title: "Funktionen" });
+    menuItem.setIcon("/icons/home.png");
+    menuItem.addEventListener("click", function(e) {
+        Titanium.API.debug("Funktionen was clicked");
+    });
+};
+
+main_menu.open({fullscreen:true});
+
+// View-Title
+var labelTitle = Titanium.UI.createLabel({
+	text:'Hauptmenü',
+    width:'auto',
+    shadowColor:'#aaa',
+    shadowOffset:{x:5,y:5},
+    color:'#900',
+    font:{fontSize:30},
+    textAlign:'center'
 });
 
-// Test
-var test = Titanium.UI.createWindow({
-	title:'myHome Test',
-	backgroundImage:"backgrounds/flying_colors_640x960.png",
-	url:'main_windows/test.js',
-	orientationModes : [ Titanium.UI.LANDSCAPE_RIGHT, Titanium.UI.LANDSCAPE_LEFT]
+// myHome-Logo
+var image = Titanium.UI.createImageView({
+	width:'220',
+	height:'53',
+	top:'5',
+	url:'images/logo_weiss.png'
 });
 
-var testTab = Titanium.UI.createTab({
-	title:"Test",
-	icon:'icons/user.png',
-	window:test
-});	
+var data = [];
 
-var account = Titanium.UI.createWindow({
-	title:'New Account',
-	backgroundImage:"backgrounds/darkfade.jpg",
-	url:'main_windows/account.js',
-	orientationModes : [ Titanium.UI.PORTRAIT, Titanium.UI.LANDSCAPE_LEFT]
+// Listenansicht erstellen / Unterschiedliche Icons fuer Android und Iphone moeglich
+//if (Titanium.Platform.name == 'android') {
+
+	data.push({leftImage:'/icons/an_ebene.png', title:'Ebene', hasChild:true, url:'/main_windows/ebene.js'});
+	data.push({leftImage:'/icons/an_ebene.png', title:'Räume', hasChild:true, url:'/main_windows/raeume.js'});
+	data.push({leftImage:'/icons/an_licht.png', title:'Licht', hasChild:true, url:'/main_windows/licht.js'});
+	data.push({leftImage:'/icons/an_heizung.png', title:'Heizung', hasChild:true, url:'/main_windows/heizung.js'});
+	data.push({leftImage:'/icons/an_kamera.png', title:'Kamera', hasChild:true, url:'/main_windows/kamera.js'});
+
+
+ /**
+} else if (Titanium.Platform.name == 'iPhone OS') {
+	data.push({leftImage:'/icons/an_ebene.png', title:'Ebene', hasChild:true, url:'/main_windows/ebene.js'});
+	data.push({leftImage:'/icons/an_ebene.png', title:'Räume', hasChild:true, url:'/main_windows/raeume.js'});
+	data.push({leftImage:'/icons/an_licht.png', title:'Licht', hasChild:true, url:'/main_windows/licht.js'});
+	data.push({leftImage:'/icons/an_heizung.png', title:'Heizung', hasChild:true, url:'/main_windows/heizung.js'});
+	data.push({leftImage:'/icons/an_kamera.png', title:'Kamera', hasChild:true, url:'/main_windows/kamera.js'});
+}
+**/
+
+// create table view
+var tableview = Titanium.UI.createTableView({
+	data:data,
+	top:'78'
 });
 
-var accountTab = Titanium.UI.createTab({
-	title:'New Account',
-	icon:'icons/register.png',
-	window:account
+// create table view event listener
+tableview.addEventListener('click', function(e) {
+	if (e.rowData.url)	{
+		var win = Titanium.UI.createWindow({
+			url:e.rowData.url,
+			title:e.rowData.title
+		});
+		win.open({fullscreen:true});
+	}
 });
 
-userTabGroup.addTab(loginTab);
-userTabGroup.addTab(accountTab);
-userTabGroup.open();
-
-Ti.App.addEventListener('grantEntrance', function(event)
-{
-	var main	= Titanium.UI.createWindow({
-		tabBarHidden 	: false,
-	  	title 		: 'myHome',
-		url 		: 'main_windows/main.js',
-		orientationModes : [ Titanium.UI.PORTRAIT, Titanium.UI.UPSIDE_PORTRAIT, Titanium.UI.LANDSCAPE_RIGHT, Titanium.UI.LANDSCAPE_LEFT]
-	});
-	
-		
-	
-	var mainTab	= Titanium.UI.createTab({
-		window: main,
-		icon:'icons/home.png',
-		title: "Home"
-	});
-	
-	var lichtWindow	= Titanium.UI.createWindow({
-		tabBarHidden 	: false,
-	  	title 		: 'Licht',
-		orientationModes : [ Titanium.UI.PORTRAIT, Titanium.UI.UPSIDE_PORTRAIT, Titanium.UI.LANDSCAPE_RIGHT, Titanium.UI.LANDSCAPE_LEFT],
-		url 		: 'main_windows/licht.js'
-	});
-	
-	var lichtTab	= Titanium.UI.createTab({
-		window: lichtWindow,
-		icon:'icons/lightbulb.png',
-		title:"Licht"
-	});
-	
-	var mainTabGroup = Titanium.UI.createTabGroup();
-	mainTabGroup.addTab(mainTab);
-	mainTabGroup.addTab(lichtTab);
-	
-	userTabGroup.close();
-	mainTabGroup.open();
-});
-
-Ti.App.addEventListener('eventLogout', function(event)
-{
-	Titanium.App.Properties.removeProperty("user_id");
-	Titanium.App.Properties.removeProperty("name");
-	Titanium.App.Properties.removeProperty("email");
-	Titanium.API.info("Loesche Properties...");
-	userTabGroup.open();	
-});
+// add table view to the window
+//main_menu.add(labelTitle); Title wird beim Windows direkt erstellt!
+main_menu.add(image); //logo
+main_menu.add(tableview);
+// main_menu.add(scrollBox);
