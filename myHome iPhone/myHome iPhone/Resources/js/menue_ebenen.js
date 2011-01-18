@@ -14,6 +14,10 @@ var logo = Titanium.UI.createImageView({
 });
 
 win1.add(logo);
+
+var section1 = Titanium.UI.createTableViewSection({
+	headerTitle: 'Ebene 1'
+});
  
 // create the main menu container
 var main_menu = Ti.UI.createTableView({
@@ -35,7 +39,7 @@ var firstItemLabel = Ti.UI.createLabel({
 });
 firstItemRow.add(firstItemLabel);
 
-main_menu.appendRow(firstItemRow);
+section1.add(firstItemRow);
 // end first option row
 
 // second option row
@@ -49,7 +53,8 @@ var secondItemLabel = Ti.UI.createLabel({
 });
 secondItemRow.add(secondItemLabel);
 
-main_menu.appendRow(secondItemRow);
+section1.add(secondItemRow);
+
 // end second option row
 
 // third option row
@@ -63,7 +68,7 @@ var thirdItemLabel = Ti.UI.createLabel({
 });
 thirdItemRow.add(thirdItemLabel);
 
-main_menu.appendRow(thirdItemRow);
+section1.add(thirdItemRow);
 // end third option row
 
 // fourth option row
@@ -77,8 +82,10 @@ var fourthItemLabel = Ti.UI.createLabel({
 });
 fourthItemRow.add(fourthItemLabel);
 
-main_menu.appendRow(fourthItemRow);
+section1.add(fourthItemRow);
 // end fourth option row
+
+main_menu.setData([section1]);
 
 win1.add(main_menu);
 

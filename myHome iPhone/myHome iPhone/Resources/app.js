@@ -35,7 +35,7 @@ var main_menu = Ti.UI.createTableView({
 
 // first option row
 var firstItemRow = Ti.UI.createTableViewRow({
-	hasChild: true,
+	hasChild: true
 });
 
 var firstItemLabel = Ti.UI.createLabel({
