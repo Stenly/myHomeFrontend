@@ -1,0 +1,69 @@
+================================================================================
+Appcelerator Titanium Diagnostics Build Log
+The contents of this file are useful to send to Appcelerator Support if
+reporting an issue to help us understand your environment, build settings
+and aid in debugging. Please attach this log to any issue that you report.
+================================================================================
+
+Starting build at 01/09/11 15:04
+
+Build details:
+
+   timestamp=12/16/10 16:25
+   version=1.5.1
+   githash=16bbb92
+
+
+Script arguments:
+   /Library/Application Support/Titanium/mobilesdk/osx/1.5.1/iphone/builder.py
+   simulator
+   "4.2"
+   "/Users/mbecker/Documents/Aptana Studio 3 Workspace/myHomeFrontend/Titanium iPhone/iPhoneTestApp/iPhoneTestApp"
+   com.matsbecker.TestApp3
+   "iPhoneTestApp3"
+   iphone
+
+Building from: /Library/Application Support/Titanium/mobilesdk/osx/1.5.1/iphone
+Platform: Darwin Kernel Version 10.5.0: Fri Nov  5 23:20:39 PDT 2010; root:xnu-1504.9.17~1/RELEASE_I386
+
+Xcode path is: /Developer
+
+
+githash=16bbb92, existing_git_hash=16bbb92
+writing contents of /Users/mbecker/Documents/Aptana Studio 3 Workspace/myHomeFrontend/Titanium iPhone/iPhoneTestApp/iPhoneTestApp/build/iphone/project.xcconfig:
+
+TI_VERSION=1.5.1
+TI_SDK_DIR=/Library/Application Support/Titanium/mobilesdk/osx/$(TI_VERSION)/iphone
+TI_APPID=com.matsbecker.TestApp3
+OTHER_LDFLAGS[sdk=iphoneos4*]=$(inherited) -weak_framework iAd
+OTHER_LDFLAGS[sdk=iphonesimulator4*]=$(inherited) -weak_framework iAd
+#include "module"
+
+old contents
+
+
+Generated the following stylecode code:
+
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+	<dict>
+		<key>classes</key>
+		<dict>
+</dict>
+
+		<key>classes_density</key>
+		<dict>
+</dict>
+
+		<key>ids</key>
+		<dict>
+</dict>
+
+		<key>ids_density</key>
+		<dict>
+</dict>
+
+	</dict>
+</plist>
+Finishing build
