@@ -1,10 +1,23 @@
 Titanium.include('js/functions.js');
 
-var db = Titanium.Database.install("db/myHome.sqlite", 'myHome');
-var url = db.execute('SELECT url FROM settings');
+var db = Titanium.Database.install("db/myHome4.sqlite", 'myHome4');
+
+var dbLogin = db.execute('SELECT * FROM login WHERE id = 1');
+Titanium.App.Properties.setString('loginName', dbLogin.fieldByName('name'));
+Titanium.App.Properties.setString('loginPassword', dbLogin.fieldByName('password'));
+if(dbLogin.fieldByName('name') == ""){
+	Titanium.App.Properties.setBool('loginAuto', false);
+} else {
+	Titanium.App.Properties.setBool('loginAuto', true);	
+}
+
+var url = db.execute('SELECT * FROM url WHERE id = 1');
 Titanium.App.Properties.setString('url', url.fieldByName('url'));
 db.close();
+
 Titanium.API.info("Set Global URL: " + Titanium.App.Properties.getString('url'));
+Titanium.API.info("Set Global Name: " + Titanium.App.Properties.getString('loginName'));
+Titanium.API.info("Set Global Password: " + Titanium.App.Properties.getString('loginPassword'));
 
 Titanium.UI.setBackgroundImage('images/darkfade.jpg');
 
@@ -59,7 +72,8 @@ var username = Titanium.UI.createTextField({
 	keyboardType:Titanium.UI.KEYBOARD_DEFAULT,
 	returnKeyType:Titanium.UI.RETURNKEY_DEFAULT,
 	clearButtonMode:Titanium.UI.INPUT_BUTTONMODE_ONFOCUS,
-	borderStyle: Titanium.UI.INPUT_BORDERSTYLE_NONE
+	borderStyle: Titanium.UI.INPUT_BORDERSTYLE_NONE,
+	value: Titanium.App.Properties.getString('loginName')
 });
 
 firstItemRow.add(firstItemLabel);
@@ -84,7 +98,8 @@ var password = Titanium.UI.createTextField({
 	returnKeyType:Titanium.UI.RETURNKEY_DEFAULT,
 	borderStyle:Titanium.UI.INPUT_BORDERSTYLE_NONE,
 	clearButtonMode:Titanium.UI.INPUT_BUTTONMODE_ONFOCUS,
-	passwordMask:true
+	passwordMask:true,
+	value: Titanium.App.Properties.getString('loginPassword')
 });
 
 secondItemRow.add(secondItemLabel);
@@ -94,10 +109,16 @@ main_menu.appendRow(secondItemRow);
 
 win1.add(main_menu);
 
+var imageUrl = 'images/checkbox_unchecked.png';
+
+if(Titanium.App.Properties.getBool('loginAuto') == true){
+	imageUrl = 'images/checkbox_checked.png';
+}
+
 var checkbox = Titanium.UI.createImageView({
 	width: '16px',
 	height: '16px',
-	image: 'images/checkbox_checked.png',
+	image: imageUrl,
 	top: 210,
 	left: 30,
 	text: 'Benutzername',
@@ -105,9 +126,9 @@ var checkbox = Titanium.UI.createImageView({
 });
 
 var checkboxtext = Titanium.UI.createLabel({
-	text: 'Benutzernamen speichern?',
+	text: 'Name und Passwort speichern?',
 	top: -25,
-	left: 70,
+	left: 60,
 	color: '#fff'
 });
 
@@ -154,62 +175,50 @@ tabGroup.addTab(tab1);
 tabGroup.open();
 
 // Settings Window
-var sub_win1 = Ti.UI.createWindow({title:'Settings', navBarHidden: false});
-sub_win1.add(logo);
-var sub_table1 = Ti.UI.createTableView({
-	style:Titanium.UI.iPhone.TableViewStyle.GROUPED,
-	scrollable:false,
-	backgroundColor:'transparent',
-	rowBackgroundColor:'white',
-	top: '79px'
-});
-var sub_row1 = Ti.UI.createTableViewRow();
-var sub_label1 = Ti.UI.createLabel({
-	left: 9,
-	text: "Login URL"
-});
-var loginUrl = Titanium.UI.createTextField({
-	height: 29,
-	left:100,
-	width:190,
-	keyboardType:Titanium.UI.KEYBOARD_DEFAULT,
-	returnKeyType:Titanium.UI.RETURNKEY_DEFAULT,
-	clearButtonMode:Titanium.UI.INPUT_BUTTONMODE_ONFOCUS,
-	borderStyle: Titanium.UI.INPUT_BORDERSTYLE_NONE,
-	hintText: Titanium.App.Properties.getString('url')
-});
-sub_row1.add(sub_label1);
-sub_row1.add(loginUrl);
-sub_table1.appendRow(sub_row1);
-sub_win1.add(sub_table1);
-var saveBtn = Titanium.UI.createButton({
-	title:'Save',
-	top:170,
-	width:'90%',
-	height:35,
-	borderRadius:1
-});
-sub_win1.add(saveBtn);
-
-saveBtn.addEventListener('click',function(e)
-{
-	if (loginUrl.value != '')
-	{
-		Titanium.API.info('New URL: ' + loginUrl.value);		
-		Titanium.App.Properties.setString('url', loginUrl.value);
-		
-		var db = Titanium.Database.install("db/myHome.sqlite", 'myHome');
-		db.execute("UPDATE settings SET url = ?", loginUrl.value);
-		db.close();
-	}
-	else
-	{
-		Titanium.API.info('No New URL!');
-	}
-});
+var sub_win1 = Ti.UI.createWindow({title:'Settings', navBarHidden: false, url: 'windows/settings.js'});
 
 // add the event to the first item
 settingsRow.addEventListener('click', function (e) {
 	Titanium.API.info("Oeffne Settings");
 	tab1.open(sub_win1);
+});
+
+checkbox.addEventListener('click', function(e) {
+	if(Titanium.App.Properties.getBool('loginAuto') == true){
+		imageUrl = 'images/checkbox_unchecked.png';
+		Titanium.App.Properties.setBool('loginAuto', false);
+		Titanium.API.info('Setze loginAuto = false');
+	} else if(Titanium.App.Properties.getBool('loginAuto') == false){
+		imageUrl = 'images/checkbox_checked.png';
+		Titanium.App.Properties.setBool('loginAuto', true);
+		Titanium.API.info('Setze loginAuto = true');
+	}
+	checkbox.image = imageUrl;	
+});
+
+checkboxtext.addEventListener('click', function(e) {
+	if(Titanium.App.Properties.getBool('loginAuto') == true){
+		imageUrl = 'images/checkbox_unchecked.png';
+		Titanium.App.Properties.setBool('loginAuto', false);
+		Titanium.API.info('Setze loginAuto = false');
+	} else if(Titanium.App.Properties.getBool('loginAuto') == false){
+		imageUrl = 'images/checkbox_checked.png';
+		Titanium.App.Properties.setBool('loginAuto', true);
+		Titanium.API.info('Setze loginAuto = true');
+	}
+	checkbox.image = imageUrl;	
+});
+
+loginBtn.addEventListener('click', function(e) {
+	var db3 = Titanium.Database.install("db/myHome4.sqlite", 'myHome4');
+	if(Titanium.App.Properties.getBool('loginAuto') == true){
+		Titanium.API.info('Speichere Name und Password in der Datenbank.');
+		
+		db3.execute("DELETE FROM login");
+		db3.execute("INSERT INTO login (id, name, password) VALUES (1, ?, ?)", username.value, password.value);
+		
+	} else {
+		db3.execute("DELETE FROM login");
+	}
+	db3.close();
 });
