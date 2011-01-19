@@ -1,13 +1,22 @@
-Titanium.include('functions.js');
+Titanium.include('js/functions.js');
 
-var win1 = Titanium.UI.currentWindow;
+// Titanium.UI.setBackgroundImage('images/darkfade.jpg');
+
+var baseWin = Titanium.UI.createWindow({  
+    title:'Base Win'
+});
+
+var win1 = Titanium.UI.createWindow({  
+    title:'Menue',
+	backgroundImage: 'images/darkfade.jpg'
+});
 
 win1.orientationModes = [Titanium.UI.PORTRAIT];
 
 Titanium.UI.orientation = Titanium.UI.PORTRAIT;
 
 var logo = Titanium.UI.createImageView({
-	image: "../images/logo.png",
+	image: "images/logo.png",
 	width: '59',
 	height: '59',
 	top: '10'
@@ -15,17 +24,13 @@ var logo = Titanium.UI.createImageView({
 
 win1.add(logo);
 
-var section1 = Titanium.UI.createTableViewSection({
-	headerTitle: 'Ebene 1'
-});
- 
 // create the main menu container
 var main_menu = Ti.UI.createTableView({
 	//style:Titanium.UI.iPhone.TableViewStyle.GROUPED,
 	scrollable:false,
-	backgroundColor:'transparent',
+	//backgroundColor:'transparent',
 	rowBackgroundColor:'white',
-	top: '79'
+	top: '79px'
 });
 
 // first option row
@@ -35,11 +40,11 @@ var firstItemRow = Ti.UI.createTableViewRow({
 
 var firstItemLabel = Ti.UI.createLabel({
 	left: 9,
-	text: "Grundriss"
+	text: "Ebenen"
 });
 firstItemRow.add(firstItemLabel);
 
-section1.add(firstItemRow);
+main_menu.appendRow(firstItemRow);
 // end first option row
 
 // second option row
@@ -49,12 +54,11 @@ var secondItemRow = Ti.UI.createTableViewRow({
 
 var secondItemLabel = Ti.UI.createLabel({
 	left: 9,
-	text: "Lichter"
+	text: "Raeume"
 });
 secondItemRow.add(secondItemLabel);
 
-section1.add(secondItemRow);
-
+main_menu.appendRow(secondItemRow);
 // end second option row
 
 // third option row
@@ -64,11 +68,11 @@ var thirdItemRow = Ti.UI.createTableViewRow({
 
 var thirdItemLabel = Ti.UI.createLabel({
 	left: 9,
-	text: "Raeume"
+	text: "Lichter"
 });
 thirdItemRow.add(thirdItemLabel);
 
-section1.add(thirdItemRow);
+main_menu.appendRow(thirdItemRow);
 // end third option row
 
 // fourth option row
@@ -78,15 +82,16 @@ var fourthItemRow = Ti.UI.createTableViewRow({
 
 var fourthItemLabel = Ti.UI.createLabel({
 	left: 9,
-	text: "Kameras"
+	text: "Heizungen"
 });
 fourthItemRow.add(fourthItemLabel);
 
-section1.add(fourthItemRow);
+main_menu.appendRow(fourthItemRow);
 // end fourth option row
 
-main_menu.setData([section1]);
-
 win1.add(main_menu);
+ 
+addEventToRow(firstItemRow, 'Ebenen', 'js/menue_ebenen.js', Titanium.UI.currentWindow, win1);
 
-addEventToRow(firstItemRow, 'Grundriss', 'menue_grundriss.js', Titanium.UI.currentWindow, win1.rootWindow);
+baseWin.add(win1);
+baseWin.open();
