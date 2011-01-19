@@ -1,4 +1,4 @@
-function addEventToRow(theRow,theTitle, theUrl, theCurrentWindow, theNavGroup, theRootWindow)
+function addEventToRow(theRow, theTitle, theUrl, theCurrentWindow, theRootWindow)
 {
     //theOrientationModes = (typeof theOrientationModes == 'undefined') ? Titanium.UI.PORTRAIT : theOrientationModes;
 	
@@ -10,11 +10,11 @@ function addEventToRow(theRow,theTitle, theUrl, theCurrentWindow, theNavGroup, t
 	        url: theUrl,
 			//orientationModes: [theOrientationModes],
 	        _parent: theCurrentWindow,
-	        navGroup : theNavGroup,
-	        rootWindow : theRootWindow
+	        rootWindow : theRootWindow,
+			backgroundColor: 'black'
     	});
 	
-	theNavGroup.open(detailWindow);
+	detailWindow.open();
 	
     });
 };
