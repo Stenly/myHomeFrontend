@@ -8,9 +8,9 @@ Titanium.UI.orientation = Titanium.UI.PORTRAIT;
 
 var logo = Titanium.UI.createImageView({
 	image: "../images/logo.png",
-	width: '59',
-	height: '59',
-	top: '10'
+	width: '59px',
+	height: '59px',
+	top: '10px'
 });
 
 win1.add(logo);
@@ -21,11 +21,11 @@ var section1 = Titanium.UI.createTableViewSection({
  
 // create the main menu container
 var main_menu = Ti.UI.createTableView({
-	//style:Titanium.UI.iPhone.TableViewStyle.GROUPED,
+	style:Titanium.UI.iPhone.TableViewStyle.GROUPED,
 	scrollable:false,
 	backgroundColor:'transparent',
 	rowBackgroundColor:'white',
-	top: '79'
+	top: '79px'
 });
 
 // first option row
@@ -89,4 +89,4 @@ main_menu.setData([section1]);
 
 win1.add(main_menu);
 
-addEventToRow(firstItemRow, 'Grundriss', 'menue_grundriss.js', Titanium.UI.currentWindow, win1.rootWindow);
+addEventToRow(firstItemRow, 'Grundriss', 'menue_grundriss.js', Titanium.UI.currentWindow, win1.navGroup, win1.rootWindow);
