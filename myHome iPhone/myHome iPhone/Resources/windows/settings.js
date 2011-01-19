@@ -1,4 +1,4 @@
-var sub_win1 = Titanium.UI.currentWindow;;
+var sub_win1 = Titanium.UI.currentWindow;
 
 var logo = Titanium.UI.createImageView({
 	image: "../images/logo.png",

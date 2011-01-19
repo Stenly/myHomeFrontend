@@ -1,4 +1,5 @@
-Titanium.include('js/functions.js');
+//Titanium.include('js/functions.js');
+Titanium.include('js/suds.js');
 
 var db = Titanium.Database.install("db/myHome4.sqlite", 'myHome4');
 
@@ -127,9 +128,10 @@ var checkbox = Titanium.UI.createImageView({
 
 var checkboxtext = Titanium.UI.createLabel({
 	text: 'Name und Passwort speichern?',
-	top: -25,
+	top: 203,
 	left: 60,
-	color: '#fff'
+	color: '#fff',
+	height: 30
 });
 
 win1.add(checkboxtext);
@@ -183,6 +185,7 @@ settingsRow.addEventListener('click', function (e) {
 	tab1.open(sub_win1);
 });
 
+
 checkbox.addEventListener('click', function(e) {
 	if(Titanium.App.Properties.getBool('loginAuto') == true){
 		imageUrl = 'images/checkbox_unchecked.png';
@@ -216,9 +219,52 @@ loginBtn.addEventListener('click', function(e) {
 		
 		db3.execute("DELETE FROM login");
 		db3.execute("INSERT INTO login (id, name, password) VALUES (1, ?, ?)", username.value, password.value);
+		Titanium.App.Properties.setString('loginName', username.value);
+		Titanium.App.Properties.setString('loginPassword', password.value);
 		
 	} else {
 		db3.execute("DELETE FROM login");
 	}
 	db3.close();
+	
+	var url = Titanium.App.Properties.getString('url') + '/services?wsdl'; 
+	
+	var callparams = {
+		    username: username.value,
+			password: password.value
+		};
+
+	var suds = new SudsClient({
+	    endpoint: url,
+	    targetNamespace: Titanium.App.Properties.getString('url')
+	});
+	
+	try {
+	    suds.invoke('login', callparams, function(xmlDoc) {
+	        
+			var results = xmlDoc.documentElement.getElementsByTagName('return');
+	        
+	        if (results && results.length>0) {
+	            
+				var isAdmin = results.item(0).getElementsByTagName('admin');
+				if(isAdmin.item(0).text == "true") {
+					Titanium.API.info("isAdmin: true");
+				}
+								
+				var userToken = results.item(0).getElementsByTagName('userToken');
+				Titanium.API.info("userToken: " + userToken.item(0).text); 
+				
+							
+	        } else {
+	            	var resultsError = xmlDoc.documentElement.getElementsByTagName('S:Fault');
+					var errorString = resultsError.item(0).getElementsByTagName('faultstring');
+					Titanium.API.info("error: " + errorString.item(0).text);
+					alert(errorString.item(0).text);
+		        }
+		        
+		    });
+	} catch(e) {
+	    alert(e);
+		Ti.API.error('Error: ' + e);
+	}
 });
