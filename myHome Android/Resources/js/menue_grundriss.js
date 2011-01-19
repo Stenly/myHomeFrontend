@@ -16,6 +16,6 @@ nextBtn.addEventListener('click', function(data)
     Ti.API.info(currWindow.rootWindow);
      
     // close the parent, then self to pop back to top
-   // currWindow.navGroup.close(currWindow._parent);
-    //currWindow.navGroup.close(currWindow);
+    currWindow.navGroup.close(currWindow._parent);
+    currWindow.navGroup.close(currWindow);
 });

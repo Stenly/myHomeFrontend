@@ -1,7 +1,5 @@
 Titanium.include('js/functions.js');
 
-// Titanium.UI.setBackgroundImage('images/darkfade.jpg');
-
 var baseWin = Titanium.UI.createWindow({  
     title:'Base Win'
 });
@@ -26,11 +24,8 @@ win1.add(logo);
 
 // create the main menu container
 var main_menu = Ti.UI.createTableView({
-	//style:Titanium.UI.iPhone.TableViewStyle.GROUPED,
 	scrollable:false,
-	//backgroundColor:'transparent',
-	rowBackgroundColor:'white',
-	top: '79px'
+	top: '79'
 });
 
 // first option row
@@ -54,7 +49,7 @@ var secondItemRow = Ti.UI.createTableViewRow({
 
 var secondItemLabel = Ti.UI.createLabel({
 	left: 9,
-	text: "Raeume"
+	text: "Räume"
 });
 secondItemRow.add(secondItemLabel);
 
@@ -91,7 +86,12 @@ main_menu.appendRow(fourthItemRow);
 
 win1.add(main_menu);
  
-addEventToRow(firstItemRow, 'Ebenen', 'js/menue_ebenen.js', Titanium.UI.currentWindow, win1);
+var navGroup = Ti.UI.iPhone.createNavigationGroup( {
+    window : win1
+});
 
-baseWin.add(win1);
+addEventToRow(firstItemRow, 'Ebenen', 'js/menue_ebenen.js', Titanium.UI.currentWindow, win1);
+ 
+//win1.navGroup = navGroup;
+//baseWin.add(navGroup);
 baseWin.open();
