@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ti:app xmlns:ti="http://ti.appcelerator.org">
-    <id>com.dhbwmannheim.myhome</id>
-    <name>myHome iPhone</name>
-    <version>1.0</version>
-    <publisher>not specified</publisher>
-    <url>not specified</url>
-    <description>not specified</description>
-    <copyright>not specified</copyright>
-    <icon>appicon.png</icon>
+<id>de.dhbw-mannheim.wi.myhome</id>
+<name>myHome iPhone</name>
+<version>1.0</version>
+<publisher>mbecker</publisher>
+<url>http://www.dhbw-mannheim.de</url>
+<description>No description provided</description>
+<copyright>2011 by mbecker</copyright>
+<icon>appicon.png</icon>
     <persistent-wifi>false</persistent-wifi>
     <prerendered-icon>false</prerendered-icon>
     <statusbar-style>default</statusbar-style>

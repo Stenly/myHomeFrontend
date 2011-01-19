@@ -16,7 +16,8 @@ var logo = Titanium.UI.createImageView({
 win1.add(logo);
 
 var section1 = Titanium.UI.createTableViewSection({
-	headerTitle: 'Ebene 1'
+	headerTitle: 'Ebene 1',
+	color: '#fff'
 });
  
 // create the main menu container
@@ -88,5 +89,16 @@ section1.add(fourthItemRow);
 main_menu.setData([section1]);
 
 win1.add(main_menu);
+
+var logoutBtn = Titanium.UI.createButton({
+	title:'Logout'
+});
+
+win1.rightNavButton = logoutBtn;
+
+logoutBtn.addEventListener('click',function(e)
+{
+	Ti.App.fireEvent('eventLogout');
+});
 
 addEventToRow(firstItemRow, 'Grundriss', 'menue_grundriss.js', Titanium.UI.currentWindow, win1.navGroup, win1.rootWindow);

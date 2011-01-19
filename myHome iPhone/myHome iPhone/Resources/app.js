@@ -121,7 +121,7 @@ var checkbox = Titanium.UI.createImageView({
 	height: '16px',
 	image: imageUrl,
 	top: 210,
-	left: 30,
+	left: 20,
 	text: 'Benutzername',
 	title: 'Passwort'
 });
@@ -129,7 +129,7 @@ var checkbox = Titanium.UI.createImageView({
 var checkboxtext = Titanium.UI.createLabel({
 	text: 'Name und Passwort speichern?',
 	top: 203,
-	left: 60,
+	left: 50,
 	color: '#fff',
 	height: 30
 });
@@ -178,6 +178,9 @@ tabGroup.open();
 
 // Settings Window
 var sub_win1 = Ti.UI.createWindow({title:'Settings', navBarHidden: false, url: 'windows/settings.js'});
+
+// Menu Window
+var menuWin = Titanium.UI.createWindow({});
 
 // add the event to the first item
 settingsRow.addEventListener('click', function (e) {
@@ -249,10 +252,30 @@ loginBtn.addEventListener('click', function(e) {
 				var isAdmin = results.item(0).getElementsByTagName('admin');
 				if(isAdmin.item(0).text == "true") {
 					Titanium.API.info("isAdmin: true");
+					Titanium.App.Properties.setBool('isAdmin', true);
+				} else {
+					Titanium.API.info("isAdmin: false");
+					Titanium.App.Properties.setBool('isAdmin', false);
 				}
 								
 				var userToken = results.item(0).getElementsByTagName('userToken');
-				Titanium.API.info("userToken: " + userToken.item(0).text); 
+				Titanium.API.info("userToken: " + userToken.item(0).text);
+				Titanium.App.Properties.setString('userToken', userToken.item(0).text); 
+				
+				Titanium.App.Properties.setString('username', username.value);
+				
+				//alert("Login erfolgreich! \n isAdmin: " + isAdmin.item(0).text + " \n userToken: " + userToken.item(0).text)
+				
+				  
+				menuWin.title			=	'Base Menu';
+				menuWin.url 			=	'js/menue.js';
+				menuWin.tabBarHidden	=	true;
+				menuWin.navBarHidden	=	true;
+				menuWin.orientationModes= 	[Titanium.UI.PORTRAIT];				
+				
+				tabGroup.close();
+				//mainTabGroup.open();
+				menuWin.open();
 				
 							
 	        } else {
@@ -267,4 +290,14 @@ loginBtn.addEventListener('click', function(e) {
 	    alert(e);
 		Ti.API.error('Error: ' + e);
 	}
+});
+
+Ti.App.addEventListener('eventLogout', function(event)
+{
+	Titanium.App.Properties.removeProperty("username");
+	Titanium.App.Properties.removeProperty("userToken");
+	Titanium.App.Properties.removeProperty("isAdmin");
+	Titanium.API.info("Loesche Properties...");
+	menuWin.close();
+	tabGroup.open();	
 });

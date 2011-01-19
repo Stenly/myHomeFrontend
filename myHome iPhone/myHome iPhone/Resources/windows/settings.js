@@ -14,7 +14,8 @@ var sub_table1 = Ti.UI.createTableView({
 	scrollable:false,
 	backgroundColor:'transparent',
 	rowBackgroundColor:'white',
-	top: '79px'
+	top: '79px',
+	height: 200
 });
 var sub_row1 = Ti.UI.createTableViewRow();
 var sub_label1 = Ti.UI.createLabel({
@@ -34,23 +35,27 @@ var loginUrl = Titanium.UI.createTextField({
 sub_row1.add(sub_label1);
 sub_row1.add(loginUrl);
 sub_table1.appendRow(sub_row1);
-sub_win1.add(sub_table1);
+
+var statusLabel = Titanium.UI.createLabel({
+	color: '#fff',
+	top: 150,
+	left: 25,
+	width: '80%',
+	height: 100
+});
+
+sub_table1.add(statusLabel);
+
 var saveBtn = Titanium.UI.createButton({
 	title:'Save',
-	top:170,
+	top:100,
 	width:'90%',
 	height:35,
 	borderRadius:1
 });
-sub_win1.add(saveBtn);
+sub_table1.add(saveBtn);
 
-var statusLabel = Titanium.UI.createLabel({
-	color: '#fff',
-	top: 210,
-	left: 25
-});
-
-sub_win1.add(statusLabel);
+sub_win1.add(sub_table1);
 
 saveBtn.addEventListener('click',function(e)
 {
