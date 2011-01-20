@@ -1,10 +1,8 @@
-Titanium.include('js/functions.js');
+Titanium.include('functions.js');
 
-Titanium.UI.setBackgroundImage('images/darkfade.jpg');
+//Titanium.UI.setBackgroundImage('images/darkfade.jpg');
 
-var baseWin = Titanium.UI.createWindow({  
-    title:'Base Win'
-});
+var baseWin = Titanium.UI.currentWindow;
 
 var win1 = Titanium.UI.createWindow({  
     title:'Menue'
@@ -16,7 +14,7 @@ win1.orientationModes = [Titanium.UI.PORTRAIT];
 Titanium.UI.orientation = Titanium.UI.PORTRAIT;
 
 var logo = Titanium.UI.createImageView({
-	image: "images/logo.png",
+	image: "../images/logo.png",
 	width: '59px',
 	height: '59px',
 	top: '10px'
@@ -89,14 +87,39 @@ fourthItemRow.add(fourthItemLabel);
 main_menu.appendRow(fourthItemRow);
 // end fourth option row
 
+var detailLabel = Titanium.UI.createLabel({
+	top: 200,
+	left:20,
+	color: '#fff',
+	text: 'username: ' + Titanium.App.Properties.getString('username') + '\nuserToken: ' + Titanium.App.Properties.getString('userToken') + '\n'
+});
+
+if(Titanium.App.Properties.getBool('isAdmin') == true){
+	detailLabel.text += 'isAdmin: true \n';
+} else {
+	detailLabel.text += 'isAdmin: false \n';
+}
+main_menu.add(detailLabel);
+
 win1.add(main_menu);
+
+var logoutBtn = Titanium.UI.createButton({
+	title:'Logout'
+});
+
+win1.rightNavButton = logoutBtn;
  
 var navGroup = Ti.UI.iPhone.createNavigationGroup( {
     window : win1
 });
 
-addEventToRow(firstItemRow, 'Ebenen', 'js/menue_ebenen.js', Titanium.UI.currentWindow, navGroup, win1);
+addEventToRow(firstItemRow, 'Ebenen', 'menue_ebenen.js', Titanium.UI.currentWindow, navGroup, win1);
  
 win1.navGroup = navGroup;
 baseWin.add(navGroup);
-baseWin.open();
+
+
+logoutBtn.addEventListener('click',function(e)
+{
+	Ti.App.fireEvent('eventLogout');
+});

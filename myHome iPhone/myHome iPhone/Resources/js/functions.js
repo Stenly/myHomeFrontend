@@ -18,3 +18,16 @@ function addEventToRow(theRow,theTitle, theUrl, theCurrentWindow, theNavGroup, t
 	
     });
 };
+
+function addShowModalWindow(theLight, theModalWindow){
+	
+	theLight.addEventListener('click',function(e)
+    {
+		if(theModalWindow.getVisible == false){
+			theModalWindow.setVisible = true;
+		} else {
+			theModalWindow.setVisible = false;
+		}		
+	});
+	
+};
