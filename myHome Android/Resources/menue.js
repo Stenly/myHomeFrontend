@@ -1,13 +1,6 @@
 Titanium.include('js/functions.js');
 
-var baseWin = Titanium.UI.createWindow({  
-    title:'Base Win'
-});
-
-var win1 = Titanium.UI.createWindow({  
-    title:'Menue',
-	backgroundImage: 'images/darkfade.jpg'
-});
+var win1 = Titanium.UI.currentWindow;
 
 win1.orientationModes = [Titanium.UI.PORTRAIT];
 
@@ -24,7 +17,7 @@ win1.add(logo);
 
 // create the main menu container
 var main_menu = Ti.UI.createTableView({
-	scrollable:false,
+	left:0,
 	top: '79'
 });
 
@@ -85,13 +78,11 @@ main_menu.appendRow(fourthItemRow);
 // end fourth option row
 
 win1.add(main_menu);
- 
-var navGroup = Ti.UI.iPhone.createNavigationGroup( {
-    window : win1
-});
 
-addEventToRow(firstItemRow, 'Ebenen', 'js/menue_ebenen.js', Titanium.UI.currentWindow, win1);
+firstItemRow.addEventListener('click', function (e) {
+	Titanium.API.info("Oeffne Ebenen");
+	openWindow('js/menue_ebenen.js', 'Ebenen', true);
+});
  
 //win1.navGroup = navGroup;
 //baseWin.add(navGroup);
-baseWin.open();

@@ -10,7 +10,8 @@ var logo = Titanium.UI.createImageView({
 sub_win1.add(logo);
 
 var sub_table1 = Ti.UI.createTableView({
-	top: '79'
+	left:0,
+	top: 79
 });
 var sub_row1 = Ti.UI.createTableViewRow();
 var sub_label1 = Ti.UI.createLabel({

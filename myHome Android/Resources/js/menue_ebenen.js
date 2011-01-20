@@ -21,10 +21,7 @@ var section1 = Titanium.UI.createTableViewSection({
  
 // create the main menu container
 var main_menu = Ti.UI.createTableView({
-	style:Titanium.UI.iPhone.TableViewStyle.GROUPED,
-	scrollable:false,
-	backgroundColor:'transparent',
-	rowBackgroundColor:'white',
+	left:0,
 	top: '79px'
 });
 
@@ -89,4 +86,7 @@ main_menu.setData([section1]);
 
 win1.add(main_menu);
 
-addEventToRow(firstItemRow, 'Grundriss', 'menue_grundriss.js', Titanium.UI.currentWindow, win1.navGroup, win1.rootWindow);
+firstItemRow.addEventListener('click', function (e) {
+	Titanium.API.info("Oeffne Grundriss");
+	openWindow('js/menue_grundriss.js', 'Grundriss', true);
+});

@@ -1,5 +1,7 @@
-//Titanium.include('js/functions.js');
+Titanium.include('js/functions.js');
 Titanium.include('js/suds.js');
+
+Titanium.App.Properties.setInt('countWindow',1);
 
 var db = Titanium.Database.install("db/myHome4.sqlite", 'myHome4');
 
@@ -22,44 +24,12 @@ Titanium.API.info("Set Global Password: " + Titanium.App.Properties.getString('l
 
 // Android-Version
 var win1 = Titanium.UI.createWindow({  
-    title:'myHome'
+    title:'myHome',
+	exitOnClose:true
 });
 
 win1.setBackgroundImage('images/darkfade.jpg');
 createAppSingleWindow();
-
-function createAppSingleWindow() {
-	
-    if (Titanium.Platform.osname != 'android') {
-        win1.hideTabBar();
-        var tab1 = Titanium.UI.createTab({
-            title: 'myHome',
-            window: win1
-        });
-
-        var tabGroup = Titanium.UI.createTabGroup();
-        tabGroup.addTab(tab1);
-        tabGroup.open();
-    } else {
-        win1.open();
-    }
-}
-
-
-function openWindow(url, anim) {
-
-    var win = Titanium.UI.createWindow({  
-        url: url,
-		backgroundImage:'images/darkfade.jpg'
-    });
-
-    if (Titanium.UI.currentTab != null) {
-        Titanium.UI.currentTab.open(win,{animated:anim});
-    } else {
-        win.open({animated:anim});
-    }
-
-}
 
 // create tab group
 // var tabGroup = Titanium.UI.createTabGroup();
@@ -84,23 +54,23 @@ win1.add(logo);
 
 // create the main menu container
 var main_menu = Ti.UI.createTableView({
-	scrollable:false,
-	backgroundColor:'black',
+	left:0,
 	top: '79'
 });
 
 // first option row
-var firstItemRow = Ti.UI.createTableViewRow({});
+var firstItemRow = Ti.UI.createTableViewRow({
+});
 
 var firstItemLabel = Ti.UI.createLabel({
-	left: 9,
+	left: '9px',
 	text: "Name"
 });
 
 var username = Titanium.UI.createTextField({
-	height: 40,
-	left:100,
-	width:190,
+	height: '40px',
+	left:'100px',
+	width:'190px',
 	keyboardType:Titanium.UI.KEYBOARD_DEFAULT,
 	returnKeyType:Titanium.UI.RETURNKEY_DEFAULT,
 	clearButtonMode:Titanium.UI.INPUT_BUTTONMODE_ONFOCUS,
@@ -118,14 +88,14 @@ main_menu.appendRow(firstItemRow);
 var secondItemRow = Ti.UI.createTableViewRow({});
 
 var secondItemLabel = Ti.UI.createLabel({
-	left: 9,
+	left: '9',
 	text: "Passwort"
 });
 
 var password = Titanium.UI.createTextField({
-	height: 40,
-	left:100,
-	width:190,
+	height: '40',
+	left:'100',
+	width:'190',
 	keyboardType:Titanium.UI.KEYBOARD_DEFAULT,
 	returnKeyType:Titanium.UI.RETURNKEY_DEFAULT,
 	borderStyle:Titanium.UI.INPUT_BORDERSTYLE_NONE,
@@ -151,18 +121,18 @@ var checkbox = Titanium.UI.createImageView({
 	width: '16',
 	height: '16',
 	image: imageUrl,
-	top: 210,
-	left: 30,
+	top: '210',
+	left: '30',
 	text: 'Benutzername',
 	title: 'Passwort'
 });
 
 var checkboxtext = Titanium.UI.createLabel({
 	text: 'Name und Passwort speichern?',
-	top: 203,
-	left: 60,
+	top: '203',
+	left: '60',
 	color: '#fff',
-	height: 30
+	height: '30'
 });
 
 win1.add(checkboxtext);
@@ -170,16 +140,17 @@ win1.add(checkbox);
 
 var loginBtn = Titanium.UI.createButton({
 	title:'Login',
-	top:270,
+	top:'270',
 	width:'90%',
-	height:35,
-	borderRadius:1
+	height:'35',
+	borderRadius:'1'
 });
 win1.add(loginBtn);
 
 // create the main menu container
 var settings_menu = Ti.UI.createTableView({
-	top: 320
+	left:0,
+	top: '320'
 });
 
 // first option row
@@ -188,7 +159,7 @@ var settingsRow = Ti.UI.createTableViewRow({
 });
 
 var settingsRowLabel = Ti.UI.createLabel({
-	left: 9,
+	left: '9',
 	text: "Settings"
 });
 settingsRow.add(settingsRowLabel);
@@ -213,7 +184,7 @@ win1.add(settings_menu);
 // add the event to the first item
 settingsRow.addEventListener('click', function (e) {
 	Titanium.API.info("Oeffne Settings");
-	openWindow('windows/settings.js',true);
+	openWindow('windows/settings.js', 'Einstellungen', true);
 });
 
 
@@ -244,6 +215,12 @@ checkboxtext.addEventListener('click', function(e) {
 });
 
 loginBtn.addEventListener('click', function(e) {
+	
+	// Öffne Menü
+	openWindow('menue.js', 'Hauptmenü', true);
+				
+	// Login auskommentiert!
+	/**
 	var db3 = Titanium.Database.install("db/myHome4.sqlite", 'myHome4');
 	if(Titanium.App.Properties.getBool('loginAuto') == true){
 		Titanium.API.info('Speichere Name und Password in der Datenbank.');
@@ -277,6 +254,7 @@ loginBtn.addEventListener('click', function(e) {
 	        
 	        if (results && results.length>0) {
 	            
+				
 				var isAdmin = results.item(0).getElementsByTagName('admin');
 				if(isAdmin.item(0).text == "true") {
 					Titanium.API.info("isAdmin: true");
@@ -297,5 +275,5 @@ loginBtn.addEventListener('click', function(e) {
 	} catch(e) {
 	    alert(e);
 		Ti.API.error('Error: ' + e);
-	}
+	}**/
 });
