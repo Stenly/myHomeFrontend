@@ -3,7 +3,7 @@ var win1 = Titanium.UI.currentWindow;
 
 win1.orientationModes = [Titanium.UI.LANDSCAPE_RIGHT];
 
-Titanium.UI.orientation = Titanium.UI.LANDSCAPE_LEFT;
+Titanium.UI.orientation = Titanium.UI.LANDSCAPE_RIGHT;
  
 var logoutBtn = Titanium.UI.createButton({
 	title:'Logout'

@@ -38,7 +38,7 @@ var tab1 = Titanium.UI.createTab({
 
 win1.orientationModes = [Titanium.UI.PORTRAIT];
 
-Titanium.UI.orientation = Titanium.UI.PORTRAIT;
+//Titanium.UI.orientation = Titanium.UI.PORTRAIT;
 
 var logo = Titanium.UI.createImageView({
 	image: "images/logo.png",
