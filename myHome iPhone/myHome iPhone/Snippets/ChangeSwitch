@@ -1,108 +1,78 @@
-Titanium.include('suds.js');
-
-function addEventToRow(theRow,theTitle, theUrl, theCurrentWindow, theNavGroup, theRootWindow, paramValue)
-{
-    //theOrientationModes = (typeof theOrientationModes == 'undefined') ? Titanium.UI.PORTRAIT : theOrientationModes;
+circlesarray[id].addEventListener('dblclick',function(e)
+    {
 		
-	theRow.addEventListener('click',function(e)
-    {
-        Ti.API.info("menue click event");
-		var detailWindow = Ti.UI.createWindow( {
-	        title : theTitle,
-	        url: theUrl,
-			//orientationModes: [theOrientationModes],
-	        _parent: theCurrentWindow,
-	        navGroup : theNavGroup,
-	        rootWindow : theRootWindow,
-			params: paramValue
-    	});
-	
-	theNavGroup.open(detailWindow);
-	
-    });
-};
-
-function addShowModalWindow(theLight, theModalWindow){
-	
-	theLight.addEventListener('click',function(e)
-    {
-		if(theModalWindow.getVisible == false){
-			theModalWindow.setVisible = true;
-		} else {
-			theModalWindow.setVisible = false;
-		}		
+		
+		if(modalWindowsArray[id].visible == false && Titanium.App.Properties.getBool('licht') == false){
+			Titanium.API.info("Licht Klick Modal Window == false");
+			Titanium.App.Properties.setBool('licht', true);			
+			//modalWindowsArray[id].visible = true;
+			createModalWindow(win1, id, name, value, key);			
+		} 
+		
 	});
-	
-};
 
-function info(params){
-	Titanium.API.info(params);
-}
-
-var circlesarray = [];
-var circlesLabelsarray = [];
-var modalWindowsArray = [];
-var switchArray =[];
-var buttonArray = [];
-
-function createNodes(win1, id, name, posX, posY, value, key){
-	Titanium.API.info("Create Light: " + name + "(Light On/Off: " + value +")");
-	
-	var lightboolean;
-	var farbelight;
+function createModalWindow(win1, id, name, value, key){
 	
 	if(value == 1){
 		lightboolean = true;
-		farbelight = "#009900";	
 	} else {
 		lightboolean = false;
-		farbelight = "#660000";
 	}
 	
-	
-	posX = posX * 480;
-	posY = posY * win1.navGroup.height;
-	
-	/*
-	 * Licht Nodes werden als Kreise definiert und in einem Array gespeichert, um später darauf zugreifen zu können
-	 */
-	circlesarray[id] = Titanium.UI.createView({
-		width: 20,
-		height: 20,
-		borderRadius: 10,
-		backgroundColor: farbelight,
-		top: posY - 10,
-		left: posX - 10,
-		zIndex: 11,
-		visible: true
-	});
-	
-	/*
-	 * Beschriftung der Licht Nodes.
-	 */
-	circlesLabelsarray[id] = Titanium.UI.createLabel({
-		text: name,
-		height:'auto',
-		left: posX - 30,
-		top: posY - 30,
-		visible: true,
-		zIndex: 12
-	});
+	modalWindowsArray[id] = Titanium.UI.createWindow({
+				opacity: 0.8,
+				bottom: 0,
+				height: 50,
+				backgroundColor: '#000',
+				zIndex: 100,
+				visible: true
+			});
 			
-	circlesarray[id].addEventListener('click',function(e)
+	var modalWinLabel = Titanium.UI.createLabel({
+				text: name,
+				color: '#fff',
+				left: 10
+			});
+			
+	modalWindowsArray[id].add(modalWinLabel);
+	
+	
+	switchArray[id] = Titanium.UI.createSwitch({
+		value: lightboolean,
+		left: 150
+	});
+	
+	modalWindowsArray[id].add(switchArray[id]);
+	
+	buttonArray[id] = Titanium.UI.createButton({
+		title: 'Close',
+		right: 10,
+		width: 100,
+		height: 30,
+		top: 10
+	});
+	
+	modalWindowsArray[id].add(buttonArray[id]);
+					
+	win1.add(modalWindowsArray[id]);
+	
+	buttonArray[id].addEventListener('click',function(e)
     {
-		var newValue;
 		
-		if(lightboolean == true){
-			newValue = 0;
-			lightboolean = false;
-			
+		if(modalWindowsArray[id].visible == false){
+			Titanium.API.info("Licht Klick Modal Window == false");
+			modalWindowsArray[id].visible = true;			
 		} else {
-			newValue = 1;
-			lightboolean = true;
+			Titanium.API.info("Licht Klick Modal Window == true");
+			Titanium.App.Properties.setBool('licht', false);
+			modalWindowsArray[id].visible = false;	
 		}
 		
-		info("Anscheinend wird das hier ausgeführt...wieso?");
+	});
+	
+	switchArray[id].addEventListener('click',function(e)
+	{
+      info("Anscheinend wird das hier ausgeführt...wieso?");
 	  /*
        * SOAP Request um Licht auszumachen
        */
@@ -116,7 +86,13 @@ function createNodes(win1, id, name, posX, posY, value, key){
 	   * Definition der Parameter, die an SOAP Schnittstelle uebergeben werden soll.
 	   * userToken muss angepasst werden !!!
 	   */
-	  	  
+	  var newValue;
+	  if (lightboolean == true){
+	  	newValue = '0';
+	  } else {
+	  	newValue = '1';
+	  }
+	  
 	  var callparams = {
 	  	userToken: '1234',
 		nodeId: id,
@@ -168,7 +144,6 @@ function createNodes(win1, id, name, posX, posY, value, key){
 						
 						}
 						
-						// Verändere die Farbe des Lichtkrieses
 						updateCircle(nodesID, nodesStatusValue);
 						
 					}
@@ -178,21 +153,8 @@ function createNodes(win1, id, name, posX, posY, value, key){
 		    });
 		} catch(e) {
 		    Ti.API.error('Error: ' + e);
-		}			
-	});	
-	
-	win1.add(circlesarray[id]);
-	win1.add(circlesLabelsarray[id]);
+		}
+	  
+  			
+	}); //switch
 }
-
-function updateCircle(id, value){
-  var farbe;
-  if (value == 1){
-      farbe = "#009900";
-    } else {
-      farbe = "#660000";
-    }
-    circlesarray[id].backgroundColor = farbe;
-}
-
-

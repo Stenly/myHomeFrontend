@@ -114,6 +114,7 @@ var navGroup = Ti.UI.iPhone.createNavigationGroup( {
 });
 
 addEventToRow(firstItemRow, 'Ebenen', 'menue_ebenen.js', Titanium.UI.currentWindow, navGroup, win1);
+addEventToRow(thirdItemRow, 'Lichter', 'menue_lichter.js', Titanium.UI.currentWindow, navGroup, win1);
  
 win1.navGroup = navGroup;
 baseWin.add(navGroup);

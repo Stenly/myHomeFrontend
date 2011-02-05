@@ -95,11 +95,7 @@ function SudsClient(_options) {
   },_options);
   
   // Invoke a web service
-  this.invoke = function(_soapAction,_body,_callback) {    
-    Titanium.API.info("SOAP invoke gestartet...");
-	Titanium.API.info("_soapAction: " + _soapAction);
-	Titanium.API.info("_body: " + _body);
-	Titanium.API.info("_callback: " + _callback);
+  this.invoke = function(_soapAction,_body,_callback) {  
 	
 	//Build request body 
     var body = _body;
@@ -110,7 +106,7 @@ function SudsClient(_options) {
       body += convertToXml(_body);
       body += '</fron:'+_soapAction+'>';
     }
-	Titanium.API.info("body: " + body);
+	
     var ebegin = config.envelopeBegin;
     config.envelopeBegin = ebegin.replace('PLACEHOLDER', config.targetNamespace);
     
@@ -122,17 +118,16 @@ function SudsClient(_options) {
     else {
       soapAction = config.targetNamespace+_soapAction;
     }
-	Titanium.API.info("soapAction: " + soapAction);
     
     //POST XML document to service endpoint
     var xhr = getXHR();
     xhr.onload = function() {
       _callback.call(this, xmlDomFromString(this.responseText));
     };
-	Titanium.API.info("xhr.send: " + config.envelopeBegin+body+config.envelopeEnd);
     xhr.open('POST',config.endpoint);
-		xhr.setRequestHeader('Content-Type', 'text/xml');
-		xhr.setRequestHeader('SOAPAction', soapAction);
-		xhr.send(config.envelopeBegin+body+config.envelopeEnd);
+	xhr.setRequestHeader('Content-Type', 'text/xml;charset=UTF-8');
+	xhr.setRequestHeader('SOAPAction', soapAction);
+	xhr.send(config.envelopeBegin+body+config.envelopeEnd);
   };
+  
 }
