@@ -7,6 +7,10 @@ var sectionArray = [];
 var switchArray = [];
 var sliderArray = [];
 
+var win1 = Titanium.UI.currentWindow;
+
+win1.orientationModes = [Titanium.UI.PORTRAIT];
+
 /*
  * Definiton der URL Endpoint.
  */
@@ -15,10 +19,22 @@ var url = Titanium.App.Properties.getString('url') + '/services?wsdl';
 /*
  * Definition der Parameter, die an SOAP Schnittstelle uebergeben werden soll.
  * userToken muss angepasst werden !!!
- */	
-var callparams = {
-    userToken: '1234'
-};
+ */
+var callparams;
+var soapAction;
+
+if(win1.params){
+	callparams = {
+	    userToken: '1234',
+		blueprintId: parseInt(win1.params, 10)
+	};
+	soapAction = 'getNodesByBlueprint';
+} else {
+	callparams = {
+	    userToken: '1234'
+	};
+	soapAction = 'getNodes';
+}
 /*
  * Neues Objekt SudsClient wird erzeugt (SOAP Client).
  */
@@ -26,10 +42,6 @@ var suds = new SudsClient({
 	endpoint: url,
 	targetNamespace: Titanium.App.Properties.getString('url')
 });
-
-var win1 = Titanium.UI.currentWindow;
-
-win1.orientationModes = [Titanium.UI.PORTRAIT];
 
 var main_menu = Ti.UI.createTableView({
 	style:Titanium.UI.iPhone.TableViewStyle.GROUPED,
@@ -39,7 +51,7 @@ var main_menu = Ti.UI.createTableView({
 });
 
 try {
-    suds.invoke('getNodes', callparams, function(xmlDoc) {
+    suds.invoke(soapAction, callparams, function(xmlDoc) {
         var results = xmlDoc.documentElement.getElementsByTagName('item');
         if (results && results.length>0) {
             
@@ -54,7 +66,7 @@ try {
 				
 				// Nur wenn es bei dem zurückgegeben Node ein XML Tag 'Status' gibt, wird dieses auch ausgelesen
 				// Notwendig, weil wir nur "lights" haben wollen
-				if(result.getElementsByTagName('status')){
+				if(result.getElementsByTagName('type').item(0).text == 'relais'){
 					var nodesStatus = result.getElementsByTagName('status');
 					for(var i = 0; i < nodesStatus.length; i++ ){
 								
@@ -63,36 +75,21 @@ try {
 						var nodesStatusValue = result.getElementsByTagName('value').item(0).text;						
 							
 					}
-							
-					if(nodesStatusKey == 'light'){
-						info('result: ' + result.text);
-						info('name: ' + nodesName);
-						info('ID: ' + nodesID);
-						info('nodesStatusKey : ' + nodesStatusKey);
-						info('nodesStatusValue : ' + nodesStatusValue);
+					
+					var lightboolean;
+					if(nodesStatusValue == 0){
+						lightboolean = false;
+					} else {
+						lightboolean = true;
+					}
 						
-						var lightboolean;
-						if(nodesStatusValue == 0){
-							lightboolean = false;
-						} else {
-							lightboolean = true;
-						}
-						
-						var section1 = Titanium.UI.createTableViewSection({
-							headerTitle: nodesName,
-							color: '#fff'
-						});
-						
-						// first option row
+					// first option row
 						itemRow[nodesID] = Ti.UI.createTableViewRow({
 						});
-						
-						itemSecondRow[nodesID] = Ti.UI.createTableViewRow({
-						});
-						
+												
 						var firstItemLabel = Ti.UI.createLabel({
 							left: 9,
-							text: 'Lichtschalter'
+							text: nodesName
 						});
 						itemRow[nodesID].add(firstItemLabel);
 						
@@ -100,27 +97,20 @@ try {
 							right: 9,
 							value: lightboolean
 						});
+						info("VAlUE !!!!!!!!!!!!!?????????!!!!!!!" + switchArray[nodesID].value);						
+						
+						setEventListener(nodesID, nodesStatusKey);
+						
 						itemRow[nodesID].add(switchArray[nodesID]);
 						
-						sliderArray[nodesID] = Titanium.UI.createSlider({
-							width: '90%',
-							min: 0,
-							max: 100,
-							value: nodesStatusValue
-						});
-						itemSecondRow[nodesID].add(sliderArray[nodesID]);
-																
-						section1.add(itemRow[nodesID]);
-						section1.add(itemSecondRow[nodesID]);
-						
-						sectionArray.push(section1);
-					}//if(nodesStatusKey == 'light')
-				} //if(result.getElementsByTagName('status'))
+						main_menu.appendRow(itemRow[nodesID]);
+					
+				}
+				
+				
 							
 			} // for(var n = 0; n < results.length; n++)
-						
-			main_menu.setData(sectionArray);
-					
+								
         } else {
             Titanium.API.info('Error: SOAP call.');
         }
@@ -144,4 +134,81 @@ logoutBtn.addEventListener('click',function(e)
 
 win1.add(main_menu);
 
+function setEventListener(nodesID, nodesStatusKey){
+	switchArray[nodesID].addEventListener('change',function(f)
+	{
+		Titanium.API.info('Basic Switch value = ' + f.value + ' act val ' + switchArray[nodesID].value);
+		var status;
+		if(f.value == true){
+			status = 1;
+		} else {
+			status = 0;
+		}
+		setLichtStatus(nodesID, nodesStatusKey, status);
+	});
+};
 
+function setLichtStatus(id, key, value){
+	info("UEBERGEBEN ID : " + id);
+	info(id);
+	info(key);
+	info(value);
+	var callparams2 = {
+		userToken: '1234',
+		nodeId: parseInt(id, 10),
+		key: key,
+		value: value
+	};
+	/*
+	 * Neues Objekt SudsClient wird erzeugt (SOAP Client).
+	 */
+	var suds2 = new SudsClient({
+		endpoint: url,
+		targetNamespace: Titanium.App.Properties.getString('url')
+	});
+	
+	try {
+		suds2.invoke('setStatus', callparams2, function(xmlDoc){
+			var resultsABC = xmlDoc.documentElement.getElementsByTagName('item');
+			if (resultsABC && resultsABC.length > 0) {
+				for (var n123 = 0; n123 < resultsABC.length; n123++) {
+					var resultABC = resultsABC.item(n123);
+					
+					var nodesIDABC = resultABC.getElementsByTagName('id').item(0).text;
+					Titanium.API.info('nodesIDABC: ' + nodesIDABC);
+										
+					var nodesStatusABC = resultABC.getElementsByTagName('status');
+					for (var i = 0; i < nodesStatusABC.length; i++) {
+					var resultXXX = nodesStatusABC.item(i);
+						var nodesStatusKeyABC = resultXXX.getElementsByTagName('key').item(0).text;
+						Titanium.API.info('nodesStatusKey : ' + nodesStatusKeyABC);
+						
+						var nodesStatusValueABC = resultXXX.getElementsByTagName('value').item(0).text;
+						Titanium.API.info('nodesStatusValue : ' + nodesStatusValueABC);
+						
+					}
+						
+					
+					updateSwitch(nodesIDABC, nodesStatusValueABC);
+					
+				}
+			}
+			else {
+				Titanium.API.info('Error: SOAP call.');
+			}
+		});
+	} catch(e) {
+		Ti.API.error('Error: ' + e);
+	}	
+};
+
+function updateSwitch(nodesID, nodesStatusValue){
+	info(nodesID + " : " + nodesStatusValue);
+	var status;
+	if(nodesStatusValue == 1){
+		status = true;
+	} else {
+		status = false;
+	}
+	switchArray[nodesID].setValue(status);
+};

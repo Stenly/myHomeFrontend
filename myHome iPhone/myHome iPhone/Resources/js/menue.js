@@ -25,7 +25,7 @@ win1.add(logo);
 // create the main menu container
 var main_menu = Ti.UI.createTableView({
 	style:Titanium.UI.iPhone.TableViewStyle.GROUPED,
-	scrollable:false,
+	scrollable:true,
 	backgroundColor:'transparent',
 	rowBackgroundColor:'white',
 	top: '79px'
@@ -80,7 +80,7 @@ var fourthItemRow = Ti.UI.createTableViewRow({
 
 var fourthItemLabel = Ti.UI.createLabel({
 	left: 9,
-	text: "Heizungen"
+	text: "Kameras"
 });
 fourthItemRow.add(fourthItemLabel);
 
@@ -114,7 +114,9 @@ var navGroup = Ti.UI.iPhone.createNavigationGroup( {
 });
 
 addEventToRow(firstItemRow, 'Ebenen', 'menue_ebenen.js', Titanium.UI.currentWindow, navGroup, win1);
+addEventToRow(secondItemRow, 'Räume', 'menue_raume.js', Titanium.UI.currentWindow, navGroup, win1);
 addEventToRow(thirdItemRow, 'Lichter', 'menue_lichter.js', Titanium.UI.currentWindow, navGroup, win1);
+addEventToRow(fourthItemRow, 'Kameras', 'menue_kameras.js', Titanium.UI.currentWindow, navGroup, win1);
  
 win1.navGroup = navGroup;
 baseWin.add(navGroup);

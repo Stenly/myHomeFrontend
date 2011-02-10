@@ -63,7 +63,7 @@ try {
 				var image = result.getElementsByTagName('image').item(0).text;
 				Titanium.API.info('image: ' + image);
 								
-				var imagewrite = Titanium.Filesystem.getFile(Titanium.Filesystem.applicationDataDirectory, 'test.png');
+				var imagewrite = Titanium.Filesystem.getFile(Titanium.Filesystem.applicationDataDirectory, 'grundriss.png');
                 var imageDecode = Titanium.Utils.base64decode(image);
 				imagewrite.write( imageDecode );
 				Titanium.API.info("Writing image: " + imagewrite.nativePath);
